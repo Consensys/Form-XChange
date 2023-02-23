@@ -1,0 +1,27 @@
+{
+  "name": "zk-vote",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "network": "turbo run network",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "eslint-config-custom": "*",
+    "prettier": "latest",
+    "truffle": "^5.7.7",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.15.0"
+}

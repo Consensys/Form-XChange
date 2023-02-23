@@ -1,0 +1,24 @@
+{
+  "name": "vote",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "truffle compile",
+    "test": "truffle test",
+    "network": "truffle develop",
+    "migrate:local": "truffle migrate --network development",
+    "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
+    "dev": "npm run compile && npm run generate-types && npm run migrate:local"
+  },
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^2.1.7",
+    "dotenv": "^16.0.3",
+    "truffle": "^5.7.7",
+    "@typechain/truffle-v5": "^8.0.2",
+    "typechain": "^8.1.1"
+  },
+  "types": "types/truffle-contracts/index.d.ts",
+  "files": [
+    "types/truffle-contracts"
+  ]
+}
