@@ -9,7 +9,7 @@ type Props = {
 
 const Layout: React.FC<Props> = ({ children, title, description }) => {
   return (
-    <div className="min-h-full px-32 text-primary-black">
+    <div className="min-h-full px-4 md:px-32 text-primary-black max-w-screen-2xl mx-auto">
       <Head>
         <title>{title}</title>
         <meta name="description" content={`${description}`} />
@@ -20,7 +20,6 @@ const Layout: React.FC<Props> = ({ children, title, description }) => {
 
       <main className="">{children}</main>
 
-      <footer> Footer </footer>
     </div>
   );
 };

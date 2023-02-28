@@ -4,4 +4,5 @@ export type ButtonVariant = "primrary_blue" | "light" | "borderless";
 
 export interface UrlProps extends LinkProps {
   text: string;
+  className?: string;
 }
