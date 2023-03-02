@@ -1,10 +1,7 @@
-import {
-  getMessageFromCode,
-  EthereumProviderError,
-  EthereumRpcError,
-} from "eth-rpc-errors";
+import { EthereumRpcError } from "eth-rpc-errors";
 import MetaMaskSDK from "@metamask/sdk";
 import { ethers } from "ethers";
+import { useEffect, useState } from "react";
 
 export const initMetaMask = () => {
   // in case we are rendering on the server,
@@ -17,9 +14,16 @@ export const initMetaMask = () => {
 };
 
 export const metaMask = () => {
-  if (typeof window.ethereum === "undefined") {
-    return;
-  }
+  const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
+
+  useEffect(() => {
+    // there could be other wallets that could inject the window.ethereum so we can verify if we are dealing with metamask
+    // using the boolean constructor to be explecit and not let this be used as a falsy value (optional)
+    setIsMetaMaskInstalled(
+      typeof window.ethereum !== "undefined" &&
+        Boolean(window.ethereum.isMetaMask)
+    );
+  }, []);
 
   const connectWallet = async () => {
     try {
@@ -37,12 +41,14 @@ export const metaMask = () => {
     }
   };
 
-  const getWalletBalance = async (address: string) => {
+  const getBalance = async (address: string) => {
     try {
       const balance = await window.ethereum.request({
         method: "eth_getBalance",
-        params: [address, 'latest'],
+        params: [address, "latest"],
       });
+      console.log({ balance });
+
       //@ts-ignore
       return ethers.utils.formatEther(balance);
     } catch (error: unknown) {
@@ -56,7 +62,7 @@ export const metaMask = () => {
 
   const getChainId = () => window.ethereum.networkVersion;
 
-  const addNetwork = async () => {
+  const addEthereumChain = async () => {
     try {
       await window.ethereum.request({
         method: "wallet_addEthereumChain",
@@ -73,7 +79,7 @@ export const metaMask = () => {
     }
   };
 
-  const switchNetwork = async () => {
+  const switchEthereumChain = async () => {
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -83,7 +89,7 @@ export const metaMask = () => {
       // This error code indicates that the chain has not been added to MetaMask.
       if (error instanceof EthereumRpcError) {
         if (error.code === 4902) {
-          await addNetwork();
+          await addEthereumChain();
         }
       }
     }
@@ -106,10 +112,12 @@ export const metaMask = () => {
 
   return {
     connectWallet,
-    getWalletBalance,
+    getBalance,
+    switchEthereumChain,
     getChainId,
     ethereum: window.ethereum,
     listenToAccounts,
     listenToChain,
+    isMetaMaskInstalled,
   };
 };

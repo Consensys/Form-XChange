@@ -10,6 +10,7 @@ module.exports = {
       host: "127.0.0.1", // Localhost
       port: 9545,
       network_id: "5777",
+      chain_id: 1337,
     },
     goerli: {
       provider: () =>

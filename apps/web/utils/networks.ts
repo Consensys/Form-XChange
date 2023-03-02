@@ -1,13 +1,14 @@
-const mnemonic = process.env["MNEMONIC"];
-const infuraProjectId = process.env["INFURA_PROJECT_ID"];
+// const mnemonic = process.env["MNEMONIC"];
+// const infuraProjectId = process.env["INFURA_PROJECT_ID"];
 
-import HDWalletProvider from "@truffle/hdwallet-provider";
+// import HDWalletProvider from "@truffle/hdwallet-provider";
 
 export const networks = {
   development: {
     host: "127.0.0.1", // Localhost
     port: 9545,
     network_id: "5777",
+    chain_id: "1337",
   },
   goerli: {
     // provider: () =>
@@ -31,6 +32,7 @@ export const networks = {
 };
 
 const isWrongNetwork = () => {};
+
 export const isAccountList = (accounts: unknown): accounts is string[] => {
   return (
     Array.isArray(accounts) &&
