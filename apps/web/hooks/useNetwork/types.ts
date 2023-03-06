@@ -11,7 +11,10 @@ export type State = {
 export type Action =
   | {
       type: "page_loaded";
-      payload: Pick<State, "isMetaMaskInstalled" | "wallet" | "balance">;
+      payload: Pick<
+        State,
+        "isMetaMaskInstalled" | "wallet" | "balance" | "wrongNetwork" | "isConnected"
+      >;
     }
   | {
       type: "connect";
@@ -26,7 +29,7 @@ export type Action =
     }
   | {
       type: "change_network";
-      payload: Pick<State, "chainId" | "wrongNetwork">;
+      payload: Pick<State, "chainId" | "wallet" | "balance" | "wrongNetwork">;
     }
   | {
       type: "change_account";

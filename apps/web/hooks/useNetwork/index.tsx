@@ -1,22 +1,11 @@
 import { PropsWithChildren, useContext, useReducer } from "react";
 
 import { metaMask } from "../../lib/metaMask";
-import { State } from "./types";
-import reducer from "./reducer";
+import reducer, { initialState } from "./reducer";
 import { isAccountList, networks } from "../../utils/networks";
 import ConnectionContext from "./context";
 
-const initialState: State = {
-  isConnected: false,
-  isMetaMaskInstalled: false,
-  wrongNetwork: undefined,
-  wallet: undefined,
-  balance: undefined,
-  chainId: null,
-  status: "LOADING",
-};
-
-const ConnectionProvider = ({ children }: PropsWithChildren) => {
+const NetworkProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const metaMaskSdk = metaMask();
 
@@ -27,6 +16,7 @@ const ConnectionProvider = ({ children }: PropsWithChildren) => {
     listenToAccounts,
     listenToChain,
     isMetaMaskInstalled,
+    switchEthereumChain,
   } = metaMaskSdk;
 
   /**
@@ -34,8 +24,6 @@ const ConnectionProvider = ({ children }: PropsWithChildren) => {
    */
   const initPage = () => {
     const local = window.localStorage.getItem("metamaskState");
-    //@ts-ignore
-    console.log("===", JSON.parse(local));
 
     // user was previously connected, start listening to MM
     if (local) {
@@ -50,15 +38,25 @@ const ConnectionProvider = ({ children }: PropsWithChildren) => {
       : // backup if local storage is empty
         { wallet: null, balance: null };
 
+    const chainId = getChainId();
+    let wrongNetwork = false;
+
+    if (chainId !== networks.development.network_id) {
+      wrongNetwork = true;
+    }
+
     dispatch({
       type: "page_loaded",
-      payload: { isMetaMaskInstalled, wallet, balance },
+      payload: {
+        isMetaMaskInstalled,
+        wallet,
+        balance,
+        wrongNetwork,
+        isConnected: Boolean(wallet),
+      },
     });
   };
 
-  /**
-   *
-   */
   const connect = async () => {
     const wallet = await connectWallet();
     const balance = await getBalance(wallet);
@@ -109,20 +107,33 @@ const ConnectionProvider = ({ children }: PropsWithChildren) => {
         type: "disconnect",
         payload: {},
       });
+      window.localStorage.clear();
     }
   };
 
   const handleChainChanged = async (newChain: string) => {
     let wrongNetwork = false;
 
-    if (newChain !== networks.development.chain_id) {
+    if (parseInt(newChain) !== networks.development.chain_id) {
       wrongNetwork = true;
     }
+
+    const wallet = await connectWallet();
+
+    const newBalance = await getBalance(wallet);
+
     dispatch({
       type: "change_network",
-      payload: { chainId: newChain, wrongNetwork },
+      payload: {
+        chainId: newChain,
+        wrongNetwork,
+        wallet,
+        balance: typeof newBalance === "string" ? newBalance : "",
+      },
     });
-    // window.location.reload();
+  };
+  const switchChain = async () => {
+    await switchEthereumChain();
   };
 
   const setLocalStorage = (wallet: string, balance: string) => {
@@ -133,21 +144,21 @@ const ConnectionProvider = ({ children }: PropsWithChildren) => {
   };
 
   return (
-    <ConnectionContext.Provider value={{ state, connect, initPage }}>
+    <ConnectionContext.Provider
+      value={{ state, connect, initPage, switchChain }}
+    >
       {children}
     </ConnectionContext.Provider>
   );
 };
 
-const useConnection = () => {
+const useNetwork = () => {
   const context = useContext(ConnectionContext);
 
   if (context === undefined) {
-    throw new Error(
-      "useConnection hook must be used within a ConnectionProvider"
-    );
+    throw new Error("useNetwork hook must be used within a NetworkProvider");
   }
   return context;
 };
 
-export { ConnectionProvider, useConnection };
+export { NetworkProvider, useNetwork };

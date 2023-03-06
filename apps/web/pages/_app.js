@@ -1,5 +1,5 @@
 import { MetaMaskProvider } from "../components/MetamaskProvider";
-import { ConnectionProvider } from "../hooks/useNetwork";
+import { NetworkProvider } from "../hooks/useNetwork";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "../styles/globals.css";
 
@@ -12,9 +12,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <MetaMaskProvider>
-      <ConnectionProvider>
+      <NetworkProvider>
         <Component {...pageProps} />
-      </ConnectionProvider>
+      </NetworkProvider>
     </MetaMaskProvider>
   );
 }

@@ -6,6 +6,7 @@ const ConnectionContext = createContext<
       state: State;
       connect: () => void;
       initPage: () => void;
+      switchChain: () => void
     }
   | undefined
 >(undefined);

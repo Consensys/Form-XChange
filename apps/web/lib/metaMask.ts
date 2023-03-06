@@ -1,7 +1,8 @@
-import { EthereumRpcError } from "eth-rpc-errors";
+import { EthereumRpcError, EthereumProviderError } from "eth-rpc-errors";
 import MetaMaskSDK from "@metamask/sdk";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
+import { getNetwork } from "../utils/networks";
 
 export const initMetaMask = () => {
   // in case we are rendering on the server,
@@ -47,15 +48,13 @@ export const metaMask = () => {
         method: "eth_getBalance",
         params: [address, "latest"],
       });
-      console.log({ balance });
 
-      //@ts-ignore
-      return ethers.utils.formatEther(balance);
-    } catch (error: unknown) {
-      if (error instanceof EthereumRpcError) {
-        if (error.code === 4001) {
-          console.log("user rejected");
-        }
+      return balance;
+    } catch (error) {
+      // @ts-ignore
+      // @TODO properly handle typecast
+      if (error.code === 4001) {
+        console.log("user rejected");
       }
     }
   };
@@ -63,14 +62,15 @@ export const metaMask = () => {
   const getChainId = () => window.ethereum.networkVersion;
 
   const addEthereumChain = async () => {
+    const { chain_id, name, rpc_urls } = getNetwork();
     try {
       await window.ethereum.request({
         method: "wallet_addEthereumChain",
         params: [
           {
-            chainId: "0xf00",
-            chainName: "...",
-            rpcUrls: ["https://..."] /* ... */,
+            chainId: `0x${chain_id.toString(16)}`,
+            chainName: name,
+            rpcUrls: rpc_urls,
           },
         ],
       });
@@ -80,24 +80,26 @@ export const metaMask = () => {
   };
 
   const switchEthereumChain = async () => {
+    const { chain_id, name, rpc_urls } = getNetwork();
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0xf00" }],
+        // params: [{ chainId: `0x${chain_id.toString(16)}` }],
+        params: [{ chainId: `0x3` }],
       });
     } catch (error) {
       // This error code indicates that the chain has not been added to MetaMask.
-      if (error instanceof EthereumRpcError) {
-        if (error.code === 4902) {
-          await addEthereumChain();
-        }
+      // @ts-ignore
+      // @TODO properly handle typecast
+      if (error.code === 4902) {
+        await addEthereumChain();
       }
     }
   };
 
-  const listenToAccounts = (callback: (accounts: string[]) => void) => {
-    window.ethereum.on("accountsChanged", async (newAccounts) =>
-      callback(newAccounts as string[])
+  const listenToAccounts = (callback: (accounts: unknown) => void) => {
+    window.ethereum.on("accountsChanged", async (newAccounts: unknown) =>
+      callback(newAccounts)
     );
   };
 
@@ -105,8 +107,8 @@ export const metaMask = () => {
     //@ts-ignore
     callback: (newChain) => void
   ) => {
-    window.ethereum.on("chainChanged", async (newChain) => {
-      return callback(parseInt(newChain as string));
+    window.ethereum.on("chainChanged", async (newChain: string) => {
+      return callback(newChain);
     });
   };
 

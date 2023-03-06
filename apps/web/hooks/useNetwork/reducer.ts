@@ -1,5 +1,16 @@
 import { State, Action } from "./types";
 
+export const initialState: State = {
+  isConnected: false,
+  isMetaMaskInstalled: false,
+  wrongNetwork: undefined,
+  wallet: undefined,
+  balance: undefined,
+  chainId: null,
+  status: "LOADING",
+};
+
+
 const reducer = (state: State, { type, payload }: Action): State => {
   switch (type) {
     case "page_loaded":
@@ -14,10 +25,7 @@ const reducer = (state: State, { type, payload }: Action): State => {
       };
       return newState;
     case "disconnect":
-      return {
-        ...state,
-        ...payload,
-      };
+      return initialState;
     case "change_account":
       return {
         ...state,
