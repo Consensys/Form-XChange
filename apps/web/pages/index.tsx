@@ -31,7 +31,7 @@ export default function Web() {
           proposal added
         </Text>
       </section>
-      <section className="w-full flex flex-col mt-8 gap-6">
+      <section className="flex flex-col w-full gap-6 mt-8">
         {mockProposal.map((proposal) => (
           <ProposalCard key={proposal.id} {...proposal} />
         ))}
