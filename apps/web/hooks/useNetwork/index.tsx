@@ -2,7 +2,7 @@ import { PropsWithChildren, useContext, useReducer } from "react";
 
 import { metaMask } from "../../lib/metaMask";
 import reducer, { initialState } from "./reducer";
-import { isAccountList, networks } from "../../utils/networks";
+import { isAccountList, zkevmNetwork } from "../../utils/networks";
 import ConnectionContext from "./context";
 
 const NetworkProvider = ({ children }: PropsWithChildren) => {
@@ -17,6 +17,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
     listenToChain,
     isMetaMaskInstalled,
     switchEthereumChain,
+    addEthereumChain,
   } = metaMaskSdk;
 
   /**
@@ -41,7 +42,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
     const chainId = getChainId();
     let wrongNetwork = false;
 
-    if (chainId !== networks.development.network_id) {
+    if (chainId !== zkevmNetwork.chainId) {
       wrongNetwork = true;
     }
 
@@ -64,7 +65,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
 
     let wrongNetwork = false;
 
-    if (chainId !== networks.development.network_id) {
+    if (chainId !== zkevmNetwork.chainId.toString()) {
       wrongNetwork = true;
     }
     const narrowedBalance = typeof balance === "string" ? balance : "";
@@ -81,7 +82,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
     });
 
     //@ts-ignore
-    setLocalStorage(wallet, balance);
+    setLocalStorage(wallet, balance, chainId);
 
     listenToAccounts(handleAccountChanged);
 
@@ -101,7 +102,12 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
           balance: narrowedBalance,
         },
       });
-      setLocalStorage(newAccounts[0], narrowedBalance);
+      const local = window.localStorage.getItem("metamaskState");
+      let chainId;
+      if (local) {
+        chainId = JSON.parse(local)?.chainId;
+      }
+      setLocalStorage(newAccounts[0], narrowedBalance, chainId);
     } else {
       dispatch({
         type: "disconnect",
@@ -114,7 +120,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
   const handleChainChanged = async (newChain: string) => {
     let wrongNetwork = false;
 
-    if (parseInt(newChain) !== networks.development.chain_id) {
+    if (parseInt(newChain) !== zkevmNetwork.chainId) {
       wrongNetwork = true;
     }
 
@@ -132,20 +138,42 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
       },
     });
   };
+
   const switchChain = async () => {
-    await switchEthereumChain();
+    return switchEthereumChain(zkevmNetwork.chainId);
   };
 
-  const setLocalStorage = (wallet: string, balance: string) => {
+  const addChain = async (infuraKey: string) => {
+    return addEthereumChain({
+      chainName: "ConsenSys zkEVM",
+      chainId: 59140,
+      rpcUrls: [
+        // TODO move this url to env vars
+        `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${infuraKey}`,
+      ],
+      nativeCurrency: {
+        name: "crETH",
+        symbol: "crETH",
+        decimals: 18,
+      },
+      blockExplorerUrls: ["https://explorer.goerli.zkevm.consensys.net"],
+    });
+  };
+
+  const setLocalStorage = (
+    wallet: string,
+    balance: string,
+    chainId: string
+  ) => {
     window.localStorage.setItem(
       "metamaskState",
-      JSON.stringify({ wallet, balance })
+      JSON.stringify({ wallet, balance, chainId })
     );
   };
 
   return (
     <ConnectionContext.Provider
-      value={{ state, connect, initPage, switchChain }}
+      value={{ state, connect, initPage, switchChain, addChain }}
     >
       {children}
     </ConnectionContext.Provider>

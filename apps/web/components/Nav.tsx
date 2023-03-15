@@ -5,6 +5,7 @@ import { truncateEthAddress } from "../utils/networks";
 import Button from "./Button";
 import ConnectionModal from "./ConnectionModal";
 import { H1, Text } from "./Text";
+import { twMerge } from "tailwind-merge";
 
 const Nav = () => {
   let [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,34 +23,31 @@ const Nav = () => {
     <nav className="flex justify-between my-4">
       <H1>Home</H1>
       <div className="flex items-center">
-        {state.wrongNetwork && (
-          <Button
-            variant="light"
-            className="py-2 mr-2 border-0"
-            onClick={switchChain}
-          >
-            <Text className="mr-2 font-semibold text-red-600 whitespace-nowrap">
-              Change network
-            </Text>
-          </Button>
-        )}
         {state.wallet && (
-          <Button variant="light" className="py-2 mr-2 border-0">
-            <div className="flex">
-              <Text className="mr-2 whitespace-nowrap">
-                {truncateEthAddress(state.wallet)}
-              </Text>
-              <Text className="font-bold whitespace-nowrap">
-                {`(${parseFloat(
-                  ethers.utils.formatEther(state.balance || "")
-                ).toFixed(2)} ETH)`}
-              </Text>
-            </div>
-          </Button>
+          <div className="flex mr-2">
+            <Text className="mr-2 whitespace-nowrap">
+              {truncateEthAddress(state.wallet)}
+            </Text>
+            <Text className="font-bold whitespace-nowrap">
+              {`(${parseFloat(
+                ethers.utils.formatEther(state.balance || "")
+              ).toFixed(2)} ETH)`}
+            </Text>
+          </div>
         )}
 
-        <Button className="py-2 max-w-[200px]" onClick={openModal}>
-          Start voting!
+        <Button
+          className={twMerge(
+            "py-2 max-w-[200px]",
+            state.wrongNetwork && state.isConnected && "bg-red-500"
+          )}
+          onClick={openModal}
+        >
+          {!state.isConnected
+            ? "Start voting!"
+            : state.wrongNetwork
+            ? "Switch to zkEVM"
+            : "Connected"}
         </Button>
       </div>
       <ConnectionModal isOpen={isModalOpen} handleCloseModal={closeModal} />
