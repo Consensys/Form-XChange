@@ -6,7 +6,8 @@ const ConnectionContext = createContext<
       state: State;
       connect: () => void;
       initPage: () => void;
-      switchChain: () => void
+      switchChain: () => Promise<any>
+      addChain: (infuraKey: string) => Promise<any>;
     }
   | undefined
 >(undefined);

@@ -1,9 +1,10 @@
-import { FC, Fragment, ReactNode, useState } from "react";
+import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import WalletStep from "./steps/Wallet";
 import InfuraStep from "./steps/Infura";
 import SwitchNetworkStep from "./steps/SwitchNetwork";
 import SnapStep from "./steps/Snap";
+import { useNetwork } from "apps/web/hooks/useNetwork";
 
 type Props = {
   isOpen: boolean;
@@ -11,16 +12,30 @@ type Props = {
 };
 
 const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
-  const [currentStep, setCurrentStep] =
-    useState<(typeof steps)[number]>("wallet");
+  const { state } = useNetwork();
 
   const steps = ["wallet", "infura", "switch_network", "snap"] as const;
 
+  const [currentStep, setCurrentStep] =
+    useState<(typeof steps)[number]>("wallet");
+
+  useEffect(() => {
+    if (state.isConnected) {
+      if (state.wrongNetwork) {
+        return setCurrentStep("switch_network");
+      }
+      return setCurrentStep("snap");
+    }
+    setCurrentStep("wallet");
+  }, [state.isConnected, state.wrongNetwork]);
+
   const stepperMap: { [K in (typeof steps)[number]]: ReactNode } = {
-    wallet: <WalletStep next={() => setCurrentStep("infura")} />,
-    infura: <InfuraStep next={() => setCurrentStep("switch_network")} />,
-    switch_network: <SwitchNetworkStep next={() => setCurrentStep("snap")} />,
-    snap: <SnapStep next={() => {}} />,
+    wallet: <WalletStep />,
+    switch_network: (
+      <SwitchNetworkStep onError={() => setCurrentStep("infura")} />
+    ),
+    infura: <InfuraStep />,
+    snap: <SnapStep />,
   };
 
   const getCurrentStep = (key: (typeof steps)[number]) => stepperMap[key];
@@ -32,7 +47,6 @@ const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
         className="relative z-50"
         onClose={() => {
           handleCloseModal();
-          setCurrentStep("wallet");
         }}
       >
         <Transition.Child
@@ -59,6 +73,12 @@ const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="flex flex-col items-center w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <button
+                  onClick={handleCloseModal}
+                  className="absolute text-3xl right-3 top-1 hover:opacity-40"
+                >
+                  &times;
+                </button>
                 {getCurrentStep(currentStep)}
               </Dialog.Panel>
             </Transition.Child>

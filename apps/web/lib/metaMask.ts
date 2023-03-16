@@ -2,7 +2,6 @@ import { EthereumRpcError, EthereumProviderError } from "eth-rpc-errors";
 import MetaMaskSDK from "@metamask/sdk";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { getNetwork } from "../utils/networks";
 
 export const initMetaMask = () => {
   // in case we are rendering on the server,
@@ -61,40 +60,42 @@ export const metaMask = () => {
 
   const getChainId = () => window.ethereum.networkVersion;
 
-  const addEthereumChain = async () => {
-    const { chain_id, name, rpc_urls } = getNetwork();
-    try {
-      await window.ethereum.request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            chainId: `0x${chain_id.toString(16)}`,
-            chainName: name,
-            rpcUrls: rpc_urls,
-          },
-        ],
-      });
-    } catch (addError) {
-      // handle "add" error
-    }
+  const addEthereumChain = async ({
+    chainId,
+    chainName,
+    rpcUrls,
+    nativeCurrency,
+    blockExplorerUrls,
+  }: {
+    chainId: number;
+    chainName: string;
+    rpcUrls: string[];
+    nativeCurrency: {
+      name: string;
+      symbol: string;
+      decimals: number;
+    };
+    blockExplorerUrls: [string];
+  }) => {
+    return window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: `0x${chainId.toString(16)}`,
+          chainName,
+          rpcUrls,
+          nativeCurrency,
+          blockExplorerUrls,
+        },
+      ],
+    });
   };
 
-  const switchEthereumChain = async () => {
-    const { chain_id, name, rpc_urls } = getNetwork();
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        // params: [{ chainId: `0x${chain_id.toString(16)}` }],
-        params: [{ chainId: `0x3` }],
-      });
-    } catch (error) {
-      // This error code indicates that the chain has not been added to MetaMask.
-      // @ts-ignore
-      // @TODO properly handle typecast
-      if (error.code === 4902) {
-        await addEthereumChain();
-      }
-    }
+  const switchEthereumChain = async (chainId: number) => {
+    return window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: `0x${chainId.toString(16)}` }],
+    });
   };
 
   const listenToAccounts = (callback: (accounts: unknown) => void) => {
@@ -116,6 +117,7 @@ export const metaMask = () => {
     connectWallet,
     getBalance,
     switchEthereumChain,
+    addEthereumChain,
     getChainId,
     ethereum: window.ethereum,
     listenToAccounts,
