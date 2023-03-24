@@ -7,7 +7,7 @@ contract FeedbackFormFactory {
     FeedbackForm[] public feedbackForms;
 
     function createFeedbackForm(string[] memory _questions) public {
-        FeedbackForm feedbackForm = new FeedbackForm();
+        FeedbackForm feedbackForm = new FeedbackForm("Feedback form", "This is a feedback form.");
         feedbackForm.setQuestions(_questions);
         feedbackForms.push(feedbackForm);
     }
