@@ -48,10 +48,10 @@ contract FeedbackForm {
         return (questions[_id].value, questions[_id].votes);
     }
 
-    function getAllQuestions() public view onlyOwner returns (string[] memory) {
-        string[] memory allQuestions = new string[](numberOfQuestions);
+    function getAllQuestions() public view onlyOwner returns (Question[] memory) {
+        Question[] memory allQuestions = new Question[](numberOfQuestions);
         for (uint i; i < numberOfQuestions; i++) {
-            allQuestions[i] = questions[i].value;
+            allQuestions[i] = questions[i];
         }
         return allQuestions;
     }
