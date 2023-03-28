@@ -8,7 +8,7 @@ import { H1, Text } from "./Text";
 import { twMerge } from "tailwind-merge";
 
 const Nav = () => {
-  let [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { state, initPage, switchChain } = useNetwork();
 
   const openModal = () => setIsModalOpen(true);
