@@ -13,12 +13,16 @@ contract FeedbackForm {
     uint private numberOfQuestions;
 
     address public owner;
+    string public title;
+    string public description;
 
     mapping(uint => Question) public questions;
     mapping(address => bool) public usersVoted;
 
-    constructor() {
+    constructor(string memory _title, string memory _description) {
         owner = tx.origin;
+        title = _title;
+        description = _description;
     }
 
     modifier onlyOwner() {
@@ -42,6 +46,14 @@ contract FeedbackForm {
 
     function getQuestionById(uint _id) public view onlyOwner returns (string memory, uint[] memory) {
         return (questions[_id].value, questions[_id].votes);
+    }
+
+    function getAllQuestions() public view onlyOwner returns (Question[] memory) {
+        Question[] memory allQuestions = new Question[](numberOfQuestions);
+        for (uint i; i < numberOfQuestions; i++) {
+            allQuestions[i] = questions[i];
+        }
+        return allQuestions;
     }
 
     function setAnswers(uint[] memory _answers) public userVoted {
