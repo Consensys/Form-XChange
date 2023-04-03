@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { H1 } from "../components/Text";
 import { ethers } from "ethers";
 import { abi } from "vote/build/contracts/FeedbackFormFactory.json";
+import { useNetwork } from "../hooks/useNetwork";
 
 const classMap = {
   inputClasses:
@@ -15,6 +16,15 @@ export default function Web() {
   const [questionsInput, setQuestionsInput] = useState<string[]>([""]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const { state } = useNetwork();
+
+  if (!state.isConnected) {
+    return (
+      <Layout>
+        <H1 className="mt-20 text-center">Connect your wallet</H1>
+      </Layout>
+    );
+  }
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();

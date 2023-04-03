@@ -38,7 +38,7 @@ const Nav = () => {
         )}
 
         {state.isConnected && (
-          <Button variant="borderless" className="max-w-[200px] py-2" href="">
+          <Button variant="borderless" className="max-w-[200px] py-2" href="/create-form">
             New feedback form
           </Button>
         )}
