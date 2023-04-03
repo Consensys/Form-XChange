@@ -7,7 +7,7 @@ import type { PropsWithChildren } from "react";
 const classMap: Record<ButtonVariant, string> = {
   primary_blue: "px-6 py-3 bg-primary-blue text-primary-gray rounded-md w-full max-w-xs shadow-md hover:bg-opacity-80 hover:shadow-lg ease-in-out duration-200",
   light: "px-6 py-3 bg-white border border-primary-blue text-primary-black rounded-md w-full max-w-xs shadow-md hover:shadow-lg ease-in-out duration-200",
-  borderless: "",
+  borderless: "px-6 py-3 rounded-md bg-transparent border border-primary-blue text-primary-black hover:bg-opacity-80 hover:shadow-lg ease-in-out duration-200",
 };
 
 type Props = {
