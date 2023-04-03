@@ -20,7 +20,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className="flex justify-between my-4">
+    <nav className="flex justify-between py-4">
       <H1>Home</H1>
       <div className="flex items-center">
         {state.wallet && (

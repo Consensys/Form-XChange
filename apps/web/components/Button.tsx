@@ -15,6 +15,7 @@ type Props = {
   variant?: ButtonVariant;
   onClick?: () => void;
   href?: string;
+  type?: "button" | "submit" | "reset";
 };
 
 const Button: React.FC<PropsWithChildren<Props>> = ({
@@ -25,7 +26,6 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   href,
   ...props
 }) => {
-  
   const rootClassName = twMerge(classMap[variant], className ? className : "");
 
   if (href) {
