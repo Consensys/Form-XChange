@@ -1,7 +1,6 @@
 import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import WalletStep from "./steps/Wallet";
-import InfuraStep from "./steps/Infura";
 import SwitchNetworkStep from "./steps/SwitchNetwork";
 import SnapStep from "./steps/Snap";
 import { useNetwork } from "apps/web/hooks/useNetwork";
@@ -14,7 +13,7 @@ type Props = {
 const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
   const { state } = useNetwork();
 
-  const steps = ["wallet", "infura", "switch_network", "snap"] as const;
+  const steps = ["wallet", "switch_network", "snap"] as const;
 
   const [currentStep, setCurrentStep] =
     useState<(typeof steps)[number]>("wallet");
@@ -31,10 +30,7 @@ const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
 
   const stepperMap: { [K in (typeof steps)[number]]: ReactNode } = {
     wallet: <WalletStep />,
-    switch_network: (
-      <SwitchNetworkStep onError={() => setCurrentStep("infura")} />
-    ),
-    infura: <InfuraStep />,
+    switch_network: <SwitchNetworkStep />,
     snap: <SnapStep />,
   };
 
