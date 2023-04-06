@@ -42,26 +42,8 @@ export const ProposalCard: React.FC<Props> = ({ id, address }) => {
     setDescription(description);
   };
 
-  // const {
-  //   data: title,
-  //   isLoading: titleLoading,
-  //   error: titleError,
-  // } = useSwr<string, Error>("feedbackTitle", () => contract.title());
-
-  // const {
-  //   data: description,
-  //   isLoading: descriptionLoading,
-  //   error: descriptionError,
-  // } = useSwr<string, Error>("feedbackDescription", () =>
-  //   contract.description()
-  // );
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  // const isLoading = titleLoading || descriptionLoading;
-  // const isError = titleError || descriptionError;
-
   return (
     <div className="flex flex-col items-center justify-between w-full max-w-2xl gap-2 p-6 mx-auto border-2 shadow-lg md:gap-0 md:flex-row border-primary-blue rounded-xl">
       <header>
