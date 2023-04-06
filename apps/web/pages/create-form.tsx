@@ -12,7 +12,7 @@ const classMap = {
   labelClasses: "text-primary-black font-medium text-lg",
 };
 
-export default function Web() {
+export default function CreateForm() {
   const [questionsInput, setQuestionsInput] = useState<string[]>([""]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
