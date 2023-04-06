@@ -24,7 +24,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
    * Initializes the page
    */
   const initPage = () => {
-    const local = window.localStorage.getItem("metamaskState");
+    const local = window.sessionStorage.getItem("metamaskState");
 
     // user was previously connected, start listening to MM
     if (local) {
@@ -33,16 +33,16 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
       listenToChain(handleChainChanged);
     }
 
-    // local could be null if not present in LocalStorage
+    // local could be null if not present in sessionStorage
     const { wallet, balance } = local
       ? JSON.parse(local)
-      : // backup if local storage is empty
+      : // backup if session storage is empty
         { wallet: null, balance: null };
 
     const chainId = getChainId();
     let wrongNetwork = false;
 
-    if (chainId !== zkevmNetwork.chainId) {
+    if (chainId !== zkevmNetwork.chainId.toString()) {
       wrongNetwork = true;
     }
 
@@ -81,8 +81,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
       },
     });
 
-    //@ts-ignore
-    setLocalStorage(wallet, balance, chainId);
+    setSessionStorage(wallet, balance, chainId);
 
     listenToAccounts(handleAccountChanged);
 
@@ -102,18 +101,18 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
           balance: narrowedBalance,
         },
       });
-      const local = window.localStorage.getItem("metamaskState");
+      const local = window.sessionStorage.getItem("metamaskState");
       let chainId;
       if (local) {
         chainId = JSON.parse(local)?.chainId;
       }
-      setLocalStorage(newAccounts[0], narrowedBalance, chainId);
+      setSessionStorage(newAccounts[0], narrowedBalance, chainId);
     } else {
       dispatch({
         type: "disconnect",
         payload: {},
       });
-      window.localStorage.clear();
+      window.sessionStorage.clear();
     }
   };
 
@@ -160,12 +159,12 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  const setLocalStorage = (
+  const setSessionStorage = (
     wallet: string,
     balance: string,
     chainId: string
   ) => {
-    window.localStorage.setItem(
+    window.sessionStorage.setItem(
       "metamaskState",
       JSON.stringify({ wallet, balance, chainId })
     );
