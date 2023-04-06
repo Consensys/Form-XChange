@@ -1,15 +1,27 @@
 import Head from "next/head";
+import { twMerge } from "tailwind-merge";
 import Nav from "./Nav";
 
 type Props = {
   description?: string;
   title?: string;
+  className?: string;
   children: React.ReactNode;
 };
 
-const Layout: React.FC<Props> = ({ children, title, description }) => {
+const Layout: React.FC<Props> = ({
+  children,
+  title,
+  description,
+  className,
+}) => {
+  const rootClassName = twMerge(
+    "min-h-full px-4 md:px-32 text-primary-black max-w-screen-2xl mx-auto",
+    className ? className : ""
+  );
+
   return (
-    <div className="min-h-full px-4 md:px-32 text-primary-black max-w-screen-2xl mx-auto">
+    <div className={rootClassName}>
       <Head>
         <title>{title}</title>
         <meta name="description" content={`${description}`} />
@@ -19,7 +31,6 @@ const Layout: React.FC<Props> = ({ children, title, description }) => {
       <Nav />
 
       <main className="">{children}</main>
-
     </div>
   );
 };
