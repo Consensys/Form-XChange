@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import useSwr from "swr";
 import { FeedbackFormInstance } from "packages/vote/types/truffle-contracts/FeedbackForm";
@@ -16,6 +16,8 @@ type Props = {
 
 export const ProposalCard: React.FC<Props> = ({ id, address }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [title, setTitle] = useState("Loading...");
+  const [description, setDescription] = useState("Loading...");
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -25,25 +27,40 @@ export const ProposalCard: React.FC<Props> = ({ id, address }) => {
     provider
   ) as unknown as FeedbackFormInstance;
 
-  const {
-    data: title,
-    isLoading: titleLoading,
-    error: titleError,
-  } = useSwr<string, Error>("feedbackTitle", () => contract.title());
+  useEffect(() => {
+    getTitle();
+    getDescription();
+  }, []);
 
-  const {
-    data: description,
-    isLoading: descriptionLoading,
-    error: descriptionError,
-  } = useSwr<string, Error>("feedbackDescription", () =>
-    contract.description()
-  );
+  const getTitle = async () => {
+    const title = await contract.title();
+    setTitle(title);
+  };
+
+  const getDescription = async () => {
+    const description = await contract.description();
+    setDescription(description);
+  };
+
+  // const {
+  //   data: title,
+  //   isLoading: titleLoading,
+  //   error: titleError,
+  // } = useSwr<string, Error>("feedbackTitle", () => contract.title());
+
+  // const {
+  //   data: description,
+  //   isLoading: descriptionLoading,
+  //   error: descriptionError,
+  // } = useSwr<string, Error>("feedbackDescription", () =>
+  //   contract.description()
+  // );
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const isLoading = titleLoading || descriptionLoading;
-  const isError = titleError || descriptionError;
+  // const isLoading = titleLoading || descriptionLoading;
+  // const isError = titleError || descriptionError;
 
   return (
     <div className="flex flex-col items-center justify-between w-full max-w-2xl gap-2 p-6 mx-auto border-2 shadow-lg md:gap-0 md:flex-row border-primary-blue rounded-xl">
