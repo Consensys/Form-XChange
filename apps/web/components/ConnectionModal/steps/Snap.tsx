@@ -1,11 +1,8 @@
 import { FC, Fragment } from "react";
 import { H3, Title, Text } from "../../Text";
 
-type Props = {
-  next?: () => void;
-};
 
-const SnapStep: FC<Props> = () => {
+const SnapStep: FC = () => {
   return (
     <Fragment>
       <H3>Snap</H3>

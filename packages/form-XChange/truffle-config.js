@@ -1,6 +1,5 @@
 require("dotenv").config();
 const mnemonic = process.env["MNEMONIC"];
-const infuraProjectId = process.env["INFURA_PROJECT_ID"];
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
@@ -12,22 +11,9 @@ module.exports = {
       network_id: "5777",
       chain_id: 1337,
     },
-    goerli: {
+    linea: {
       provider: () =>
-        new HDWalletProvider(
-          mnemonic,
-          `https://goerli.infura.io/v3/${infuraProjectId}`
-        ),
-      network_id: 5,
-      chain_id: 5,
-    },
-    zkevm: {
-      // infura url subject to change in the future.
-      provider: () =>
-        new HDWalletProvider(
-          mnemonic,
-          `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${infuraProjectId}`
-        ),
+        new HDWalletProvider(mnemonic, `https://rpc.goerli.linea.build`),
       network_id: 59140,
       chain_id: 59140,
     },

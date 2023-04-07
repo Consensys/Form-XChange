@@ -3,18 +3,17 @@ import { H3, Text } from "../../Text";
 import Button from "../../Button";
 import { useNetwork } from "apps/web/hooks/useNetwork";
 
-type Props = {
-  next?: () => void;
-  onError?: () => void;
-};
-
-const SwitchNetworkStep: FC<Props> = ({ onError }) => {
-  const { switchChain } = useNetwork();
+const SwitchNetworkStep: FC = ({}) => {
+  const { switchToLineaChain, addLineaChain } = useNetwork();
 
   const switchToLineaNetwork = async () => {
     try {
-      await switchChain();
-    } catch (error) {
+      await switchToLineaChain();
+    } catch (error: any) {
+      // MetaMask extension wallet provides a default Linea network. usually There's no special wallet setup necessary
+      if (error.code === 4902) {
+        addLineaChain();
+      }
       console.error(error);
     }
   };
@@ -22,7 +21,7 @@ const SwitchNetworkStep: FC<Props> = ({ onError }) => {
   return (
     <Fragment>
       <H3>Switch Network</H3>
-      <Text className="mt-4">Now let's switch to Linea network!</Text>
+      <Text className="mt-4">Let's switch to Linea network!</Text>
       <Button className="mt-5" onClick={switchToLineaNetwork}>
         <Text className="mr-2 text-white font-semiboldwhitespace-nowrap">
           Switch

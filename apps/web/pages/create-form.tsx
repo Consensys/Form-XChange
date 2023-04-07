@@ -3,7 +3,7 @@ import Button from "../components/Button";
 import Layout from "../components/Layout";
 import { H1 } from "../components/Text";
 import { ethers } from "ethers";
-import { abi } from "vote/build/contracts/FeedbackFormFactory.json";
+import { abi } from "packages/form-XChange/build/contracts/FeedbackFormFactory.json";
 import { useNetwork } from "../hooks/useNetwork";
 
 const classMap = {
@@ -30,7 +30,7 @@ export default function CreateForm() {
   const signer = provider.getSigner();
 
   const contract = new ethers.Contract(
-    "0x6053370e9000405343251EAe3f1bBeeD2c587840",
+    "0x77F559635d4e5D46e7EF39DE4A71a5bd75CeBa8c",
     abi,
     signer
   );
@@ -75,8 +75,8 @@ export default function CreateForm() {
           onSubmit={(e) => handleSubmit(e)}
           className="flex flex-col gap-10 place-items-end px-12 py-7 shadow-lg rounded-xl bg-[#FEFEFE] max-w-4xl mx-auto mb-10"
         >
-          <div className="w-full flex gap-10">
-            <div className="w-full flex flex-col">
+          <div className="flex w-full gap-10">
+            <div className="flex flex-col w-full">
               <label className={classMap.labelClasses} htmlFor="form_title">
                 Form title
               </label>
@@ -91,7 +91,7 @@ export default function CreateForm() {
                 name="form_title"
               />
             </div>
-            <div className="w-full flex flex-col">
+            <div className="flex flex-col w-full">
               <label
                 className={classMap.labelClasses}
                 htmlFor="form_description"
@@ -110,7 +110,7 @@ export default function CreateForm() {
               />
             </div>
           </div>
-          <div className="w-full flex flex-col">
+          <div className="flex flex-col w-full">
             <div className="flex flex-col">
               <label className={classMap.labelClasses} htmlFor="form_questions">
                 Form questions

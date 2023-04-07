@@ -1,15 +1,14 @@
 import { ethers } from "ethers";
 import useSwr from "swr";
 import Layout from "../components/Layout";
-import { ProposalCard } from "../components/ProposalCard";
+import { FeedbackFormCard } from "../components/FeedbackFormCard";
 import { H1, Text } from "../components/Text";
-import { abi } from "vote/build/contracts/FeedbackFormFactory.json";
-import { FeedbackFormFactoryInstance } from "packages/vote/types/truffle-contracts/FeedbackFormFactory";
-import { useQuestions } from "../hooks/useQuestions";
+import { abi } from "packages/form-XChange/build/contracts/FeedbackFormFactory.json";
+import { FeedbackFormFactoryInstance } from "packages/form-XChange/types/truffle-contracts/FeedbackFormFactory";
 
 // hardcoded for testing
 const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
-  "0x6053370e9000405343251EAe3f1bBeeD2c587840";
+  "0x77F559635d4e5D46e7EF39DE4A71a5bd75CeBa8c";
 
 export default function Web() {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -31,20 +30,20 @@ export default function Web() {
   return (
     <Layout>
       <section className="flex flex-col items-center mt-24">
-        <H1 className="text-center">Welcome to ZK-Vote!</H1>
+        <H1 className="mb-4 text-center">Welcome to form-XChange!</H1>
         <Text className="max-w-md text-center">
-          To get started connect your wallet or explore the current voting
-          proposal added
+          To get started connect your wallet
+        </Text>
+        <Text className="max-w-md text-center">
+          or explore the current forms
         </Text>
       </section>
       <section className="flex flex-col w-full gap-6 mt-8">
         {isLoading && <Text>Loading</Text>}
         {error && <Text>Error</Text>}
-        {feedbackFormsContracts?.map((address, index) => {
-          return (
-            <ProposalCard key={index} id={index} address={address} />
-          );
-        })}
+        {feedbackFormsContracts?.map((address, index) => (
+          <FeedbackFormCard id={index} address={address} />
+        ))}
       </section>
     </Layout>
   );

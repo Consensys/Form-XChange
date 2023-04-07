@@ -1,43 +1,14 @@
-import { FC, Fragment, ReactNode, useEffect, useState } from "react";
+import { FC, Fragment } from "react";
+import Link from "next/link";
 import { Dialog, Transition } from "@headlessui/react";
-import { Connect, SwitchNetwork, Snap } from "./steps";
-
-import { useNetwork } from "apps/web/hooks/useNetwork";
+import { H3, Text } from "../Text";
 
 type Props = {
   isOpen: boolean;
   handleCloseModal: () => void;
 };
 
-const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
-  const {
-    state: { isConnected, wrongNetwork },
-  } = useNetwork();
-
-  const steps = ["connect", "switch_network", "snap"] as const;
-
-  const [currentStep, setCurrentStep] =
-    useState<(typeof steps)[number]>("connect");
-
-  useEffect(() => {
-    if (isConnected) {
-      if (wrongNetwork) {
-        return setCurrentStep("switch_network");
-      }
-      handleCloseModal();
-    } else {
-      setCurrentStep("connect");
-    }
-  }, [isConnected, wrongNetwork]);
-
-  const stepperMap: { [K in (typeof steps)[number]]: ReactNode } = {
-    connect: <Connect />,
-    switch_network: <SwitchNetwork />,
-    snap: <Snap />,
-  };
-
-  const getCurrentStep = (key: (typeof steps)[number]) => stepperMap[key];
-
+const FundModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -77,7 +48,41 @@ const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
                 >
                   &times;
                 </button>
-                {currentStep && getCurrentStep(currentStep)}
+                <H3>Fund your wallet!</H3>
+                <div className="flex flex-col flex-start">
+                  <Text className="mt-4">
+                    Balance of your wallet is 0 ETH!
+                    <br /> Please fund your wallet to move forward. You can use
+                    a
+                    <Link
+                      className="mx-1 text-blue-500"
+                      target="_blank"
+                      href="https://faucetlink.to/goerli"
+                    >
+                      faucet
+                    </Link>
+                    to obtain Goerli ETH. Then,
+                    <Link
+                      className="text-blue-500 "
+                      target="_blank"
+                      href="https://goerli.hop.exchange/#/send?token=ETH"
+                    >
+                      bridge
+                    </Link>{" "}
+                    funds from Goerli to Linea
+                  </Text>
+
+                  <Text className="mt-6">
+                    Need more help ?
+                    <Link
+                      className="ml-2 text-blue-500"
+                      target="_blank"
+                      href="https://docs.linea.build/use-linea/bridge-funds"
+                    >
+                      click here
+                    </Link>
+                  </Text>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -87,4 +92,4 @@ const ConnectionModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
   );
 };
 
-export default ConnectionModal;
+export default FundModal;

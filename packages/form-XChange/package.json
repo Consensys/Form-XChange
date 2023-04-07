@@ -1,5 +1,5 @@
 {
-  "name": "vote",
+  "name": "form-xchange",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,11 +7,13 @@
     "test": "truffle test",
     "network": "truffle develop",
     "migrate:local": "truffle migrate --network development",
-    "migrate:zkevm": "truffle migrate --network zkevm",
+    "migrate:linea": "truffle migrate --network zkevm",
     "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
-    "dev": "npm run compile && npm run generate-types && npm run migrate:zkevm"
+    "dev": "npm run compile && npm run generate-types && npm run migrate:local",
+    "linea": "npm run compile && npm run generate-types && npm run migrate:linea"
   },
   "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.16",
     "@truffle/hdwallet-provider": "^2.1.7",
     "@typechain/truffle-v5": "^8.0.2",
     "dotenv": "^16.0.3",

@@ -36,16 +36,16 @@ contract("FeedbackFormFactory", (accounts) => {
   });
 
   it("should submit the feedbacks to the form questions correctly", async () => {
-    await feedbackFormFactory.setAnswers(0, [1, 4]);
-
+    await feedbackFormFactory.submitFeedback(0, [1, 4]);
+    //TODO add assert code
     console.log(await feedbackFormFactory.getAllQuestions(0));
   });
 
   it("should revert if same user tries to submit feedback again", async () => {
-    await feedbackFormFactory.setAnswers(0, [1, 4]);
+    await feedbackFormFactory.submitFeedback(0, [1, 4]);
     await expectRevert(
-      feedbackFormFactory.setAnswers(0, [3, 2]),
-      "User has already voted."
+      feedbackFormFactory.submitFeedback(0, [3, 2]),
+      "User has already prvoded feedback."
     );
   });
 });

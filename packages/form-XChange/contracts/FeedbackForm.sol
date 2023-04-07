@@ -2,12 +2,10 @@
 // Tells the Solidity compiler to compile only from v0.8.13 to v0.9.0
 pragma solidity ^0.8.13;
 
-// Base form contract for all forms
-
 contract FeedbackForm {
     struct Question {
         string value;
-        uint[] votes;
+        uint[] feedback;
     }
 
     uint private numberOfQuestions;
@@ -17,7 +15,7 @@ contract FeedbackForm {
     string public description;
 
     mapping(uint => Question) public questions;
-    mapping(address => bool) public usersVoted;
+    mapping(address => bool) public feedbackProviders;
 
     constructor(string memory _title, string memory _description) {
         owner = tx.origin;
@@ -30,8 +28,8 @@ contract FeedbackForm {
         _;
     }
 
-    modifier userVoted() {
-        require(!usersVoted[msg.sender], "User has already voted.");
+    modifier hasProvidedFeedback() {
+        require(!feedbackProviders[msg.sender], "User has already prvoded feedback.");
         _;
     }
 
@@ -44,11 +42,18 @@ contract FeedbackForm {
         }
     }
 
-    function getQuestionById(uint _id) public view onlyOwner returns (string memory, uint[] memory) {
-        return (questions[_id].value, questions[_id].votes);
+    function getQuestionById(
+        uint _id
+    ) public view onlyOwner returns (string memory, uint[] memory) {
+        return (questions[_id].value, questions[_id].feedback);
     }
 
-    function getAllQuestions() public view onlyOwner returns (Question[] memory) {
+    function getAllQuestions()
+        public
+        view
+        onlyOwner
+        returns (Question[] memory)
+    {
         Question[] memory allQuestions = new Question[](numberOfQuestions);
         for (uint i; i < numberOfQuestions; i++) {
             allQuestions[i] = questions[i];
@@ -56,12 +61,17 @@ contract FeedbackForm {
         return allQuestions;
     }
 
-    function setAnswers(uint[] memory _answers) public userVoted {
-        require(numberOfQuestions == _answers.length, "All questions must be answered.");
-            for (uint i; i < _answers.length; i++) {
-                Question storage question = questions[i];
-                question.votes.push(_answers[i]);
-            }
-            usersVoted[msg.sender] = true;
+    function submitFeedback(
+        uint[] memory _feedback
+    ) public hasProvidedFeedback {
+        require(
+            numberOfQuestions == _feedback.length,
+            "Feedback should be provided for all questions."
+        );
+        for (uint i; i < _feedback.length; i++) {
+            Question storage question = questions[i];
+            question.feedback.push(_feedback[i]);
+        }
+        feedbackProviders[msg.sender] = true;
     }
 }
