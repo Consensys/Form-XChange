@@ -22,7 +22,8 @@ const Nav = () => {
   return (
     <nav className="flex justify-between py-4">
       <H1>Home</H1>
-      <div className="flex items-center">
+
+      <div className="flex gap-4 w-full justify-end items-center">
         {state.wallet && (
           <div className="flex mr-2">
             <Text className="mr-2 whitespace-nowrap">
@@ -34,6 +35,12 @@ const Nav = () => {
               ).toFixed(2)} ETH)`}
             </Text>
           </div>
+        )}
+
+        {state.isConnected && (
+          <Button variant="borderless" className="max-w-[200px] py-2" href="/create-form">
+            New feedback form
+          </Button>
         )}
 
         <Button

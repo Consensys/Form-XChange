@@ -5,10 +5,11 @@ import { ProposalCard } from "../components/ProposalCard";
 import { H1, Text } from "../components/Text";
 import { abi } from "vote/build/contracts/FeedbackFormFactory.json";
 import { FeedbackFormFactoryInstance } from "packages/vote/types/truffle-contracts/FeedbackFormFactory";
+import { useQuestions } from "../hooks/useQuestions";
 
 // hardcoded for testing
 const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
-  "0xaff1c07743f6D367C2A4baFDC7D7bE748eDf2943";
+  "0x6053370e9000405343251EAe3f1bBeeD2c587840";
 
 export default function Web() {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -39,9 +40,11 @@ export default function Web() {
       <section className="flex flex-col w-full gap-6 mt-8">
         {isLoading && <Text>Loading</Text>}
         {error && <Text>Error</Text>}
-        {feedbackFormsContracts?.map((address, index) => (
-          <ProposalCard id={index} address={address} />
-        ))}
+        {feedbackFormsContracts?.map((address, index) => {
+          return (
+            <ProposalCard key={index} id={index} address={address} />
+          );
+        })}
       </section>
     </Layout>
   );
