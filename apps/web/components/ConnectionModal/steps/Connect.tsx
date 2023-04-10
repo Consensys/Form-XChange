@@ -4,11 +4,7 @@ import { H3, Text } from "../../Text";
 import Button from "../../Button";
 import { useNetwork } from "apps/web/hooks/useNetwork";
 
-type Props = {
-  next?: () => void;
-};
-
-const WalletStep: FC<Props> = () => {
+const ConnectStep: FC = () => {
   const { connect } = useNetwork();
 
   return (
@@ -30,4 +26,4 @@ const WalletStep: FC<Props> = () => {
   );
 };
 
-export default WalletStep;
+export default ConnectStep;

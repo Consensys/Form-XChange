@@ -75,7 +75,7 @@ export const metaMask = () => {
       symbol: string;
       decimals: number;
     };
-    blockExplorerUrls: [string];
+    blockExplorerUrls: string[];
   }) => {
     return window.ethereum.request({
       method: "wallet_addEthereumChain",
@@ -105,8 +105,7 @@ export const metaMask = () => {
   };
 
   const listenToChain = (
-    //@ts-ignore
-    callback: (newChain) => void
+    callback: (newChain: string) => void
   ) => {
     window.ethereum.on("chainChanged", async (newChain: string) => {
       return callback(newChain);

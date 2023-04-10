@@ -6,58 +6,89 @@ import Button from "./Button";
 import ConnectionModal from "./ConnectionModal";
 import { H1, Text } from "./Text";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
+import { getFormattedBalance } from "../utils/networks";
+import FundModal from "./FundModal";
+import { useRouter } from "next/router";
 
 const Nav = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { state, initPage, switchChain } = useNetwork();
+  const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
+  const [isFundModalOpen, setIsFundModalOpen] = useState(false);
+  const {
+    state: { isConnected, wrongNetwork, wallet, balance },
+    initPage,
+  } = useNetwork();
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const router = useRouter();
+
+  const formattedBalance = getFormattedBalance(balance || "0x0");
+
+  const openConnectionModal = () => setIsConnectionModalOpen(true);
+  const closeConnectionModal = () => setIsConnectionModalOpen(false);
+
+  const openFundModal = () => setIsFundModalOpen(true);
+  const closeFundModal = () => setIsFundModalOpen(false);
 
   useEffect(() => {
     initPage();
     // @TODO remove listners on unmount;
   }, []);
 
+  const handleDisconnect = () => {};
+
   return (
     <nav className="flex justify-between py-4">
-      <H1>Home</H1>
+      <Link href="/">
+        <H1>Home</H1>
+      </Link>
 
-      <div className="flex gap-4 w-full justify-end items-center">
-        {state.wallet && (
-          <div className="flex mr-2">
+      <div className="flex items-center justify-end w-full gap-4">
+        {wallet && (
+          <div className="flex items-center mr-2">
             <Text className="mr-2 whitespace-nowrap">
-              {truncateEthAddress(state.wallet)}
+              {truncateEthAddress(wallet)}
             </Text>
+
             <Text className="font-bold whitespace-nowrap">
-              {`(${parseFloat(
-                ethers.utils.formatEther(state.balance || "")
-              ).toFixed(2)} ETH)`}
+              {`(${formattedBalance} ETH)`}
             </Text>
           </div>
         )}
 
-        {state.isConnected && (
-          <Button variant="borderless" className="max-w-[200px] py-2" href="/create-form">
+        {isConnected && (
+          <Button
+            variant="borderless"
+            className={twMerge(
+              "max-w-[200px] py-2",
+              formattedBalance === 0 && "border-red-500"
+            )}
+            onClick={() => {
+              formattedBalance === 0
+                ? openFundModal()
+                : router.push("/create-form");
+            }}
+          >
             New feedback form
           </Button>
         )}
 
-        <Button
-          className={twMerge(
-            "py-2 max-w-[200px]",
-            state.wrongNetwork && state.isConnected && "bg-red-500"
-          )}
-          onClick={openModal}
-        >
-          {!state.isConnected
-            ? "Start voting!"
-            : state.wrongNetwork
-            ? "Switch to zkEVM"
-            : "Connected"}
-        </Button>
+        {(!isConnected || wrongNetwork) && (
+          <Button
+            className={twMerge(
+              "py-2 max-w-[200px]",
+              wrongNetwork && isConnected && "bg-red-500"
+            )}
+            onClick={openConnectionModal}
+          >
+            {wrongNetwork ? "Switch to linea" : "Start"}
+          </Button>
+        )}
       </div>
-      <ConnectionModal isOpen={isModalOpen} handleCloseModal={closeModal} />
+      <ConnectionModal
+        isOpen={isConnectionModalOpen}
+        handleCloseModal={closeConnectionModal}
+      />
+      <FundModal isOpen={isFundModalOpen} handleCloseModal={closeFundModal} />
     </nav>
   );
 };

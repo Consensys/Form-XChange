@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import { abi } from "vote/build/contracts/FeedbackForm.json";
-import { FeedbackFormInstance } from "vote/types/truffle-contracts/FeedbackForm";
+import contract from "packages/form-XChange/build/contracts/FeedbackForm.json";
+import { FeedbackFormInstance } from "packages/form-XChange/types/truffle-contracts/FeedbackForm";
 
 export type Question = {
   value: string;
@@ -9,6 +9,7 @@ export type Question = {
 };
 
 export const useQuestions = (formContractAddress: string) => {
+  const { abi }  = contract;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 
@@ -35,7 +36,7 @@ export const useQuestions = (formContractAddress: string) => {
       const questions = await FeedbackForm.getAllQuestions();
       setQuestions(
         questions.map((question) => ({
-          value: question,
+          value: question.value,
           userFeedback: null,
         }))
       );
@@ -63,7 +64,7 @@ export const useQuestions = (formContractAddress: string) => {
     if (!isAllFeedbackGiven) return;
 
     try {
-      await FeedbackForm.setAnswers(feedbacks as number[]);
+      await FeedbackForm.submitFeedback(feedbacks as number[]);
     } catch (error) {
       console.error(error);
     } finally {

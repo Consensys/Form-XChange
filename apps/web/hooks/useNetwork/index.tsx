@@ -2,7 +2,7 @@ import { PropsWithChildren, useContext, useReducer } from "react";
 
 import { metaMask } from "../../lib/metaMask";
 import reducer, { initialState } from "./reducer";
-import { isAccountList, zkevmNetwork } from "../../utils/networks";
+import { isAccountList, lineaNetwork } from "../../utils/networks";
 import ConnectionContext from "./context";
 
 const NetworkProvider = ({ children }: PropsWithChildren) => {
@@ -40,9 +40,11 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
         { wallet: null, balance: null };
 
     const chainId = getChainId();
+
     let wrongNetwork = false;
 
-    if (chainId !== zkevmNetwork.chainId.toString()) {
+    // users should use linea network
+    if (chainId !== lineaNetwork.chainId.toString()) {
       wrongNetwork = true;
     }
 
@@ -65,7 +67,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
 
     let wrongNetwork = false;
 
-    if (chainId !== zkevmNetwork.chainId.toString()) {
+    if (chainId !== lineaNetwork.chainId.toString()) {
       wrongNetwork = true;
     }
     const narrowedBalance = typeof balance === "string" ? balance : "";
@@ -119,7 +121,7 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
   const handleChainChanged = async (newChain: string) => {
     let wrongNetwork = false;
 
-    if (parseInt(newChain) !== zkevmNetwork.chainId) {
+    if (parseInt(newChain) !== lineaNetwork.chainId) {
       wrongNetwork = true;
     }
 
@@ -138,25 +140,12 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
-  const switchChain = async () => {
-    return switchEthereumChain(zkevmNetwork.chainId);
+  const switchToLineaChain = async () => {
+    return switchEthereumChain(lineaNetwork.chainId);
   };
 
-  const addChain = async (infuraKey: string) => {
-    return addEthereumChain({
-      chainName: "ConsenSys zkEVM",
-      chainId: 59140,
-      rpcUrls: [
-        // TODO move this url to env vars
-        `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${infuraKey}`,
-      ],
-      nativeCurrency: {
-        name: "crETH",
-        symbol: "crETH",
-        decimals: 18,
-      },
-      blockExplorerUrls: ["https://explorer.goerli.zkevm.consensys.net"],
-    });
+  const addLineaChain = async () => {
+    return addEthereumChain(lineaNetwork);
   };
 
   const setSessionStorage = (
@@ -172,7 +161,13 @@ const NetworkProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <ConnectionContext.Provider
-      value={{ state, connect, initPage, switchChain, addChain }}
+      value={{
+        state,
+        connect,
+        initPage,
+        switchToLineaChain,
+        addLineaChain,
+      }}
     >
       {children}
     </ConnectionContext.Provider>

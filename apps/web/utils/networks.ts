@@ -1,23 +1,16 @@
-const mnemonic = process.env["MNEMONIC"];
-const infuraProjectId = process.env["INFURA_PROJECT_ID"];
+import { ethers } from "ethers";
 
-import HDWalletProvider from "@truffle/hdwallet-provider";
-
-export const zkevmNetwork = {
-  // infura url subject to change in the future.
-  provider: () => {
-    if (mnemonic && infuraProjectId) {
-      return new HDWalletProvider(
-        mnemonic,
-        `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${infuraProjectId}`
-      );
-    }
-  },
-  rpcUrls: [
-    `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${infuraProjectId}`,
-  ],
+export const lineaNetwork = {
+  chainName: "Linea Goerli test network",
+  rpcUrls: ["https://rpc.goerli.linea.build"],
   networkId: 59140,
   chainId: 59140,
+  nativeCurrency: {
+    name: "ETH",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  blockExplorerUrls: ["https://explorer.goerli.linea.build/"],
 };
 
 export const truncateEthAddress = (address: string) => {
@@ -26,6 +19,9 @@ export const truncateEthAddress = (address: string) => {
   if (!match) return address;
   return `${match[1]}…${match[2]}`;
 };
+
+export const getFormattedBalance = (balance: string) =>
+  +parseFloat(ethers.utils.formatEther(balance || "")).toFixed(2);
 
 export const isAccountList = (accounts: unknown): accounts is string[] => {
   return (

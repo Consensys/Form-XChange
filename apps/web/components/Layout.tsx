@@ -27,18 +27,16 @@ const Layout: React.FC<Props> = ({
         <meta name="description" content={`${description}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <Nav />
-
       <main className="">{children}</main>
     </div>
   );
 };
 
 Layout.defaultProps = {
-  title: "ZK-Vote dApp",
+  title: "form-XChange",
   description:
-    "A example monorepo of building a voting application on top of all Consensys products and zk-evm",
+    "A example monorepo of building a form application on top of all Consensys products",
 };
 
 export default Layout;
