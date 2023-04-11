@@ -8,7 +8,7 @@ Leveraging the power of our products, including Truffle, MetaMask, Linea, and In
 ## How It works
 
 
-![](https://i.imgur.com/wMTt3MU.png)
+![Form](https://i.imgur.com/IhxE6dl.png)
 
 
 To use FormXChange you need to connect and sign in with MetaMask Wallet. 
