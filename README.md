@@ -13,14 +13,14 @@ Leveraging the power of our products, including Truffle, MetaMask, Linea, and In
 
 To use FormXChange you need to connect and sign in with MetaMask Wallet. 
 
-**If you are an Admin:**
+**If you are a Form Author/Creator:**
 
 - You can create new forms with multiple questions
 - After the user submits their votes/answers you can view the average vote for each section
 
-**If you are a User:**
+**If you are a Participant/Contributor:**
 
-- You can go to form/proposal and vote anonymously
+- You can go to forms/proposals and vote anonymously
 
 #### What are the main features?
 
