@@ -1,6 +1,6 @@
 # FormXChange
 
-Form XChange is an open sourced zk voting application. This application allows user to vote anonymously on various proposals using zero-knowledge proofs. 
+Form XChange is an open sourced tool to create and use feedback forms on Linea. This application allows user to vote anonymously on various proposals.
 
 Leveraging the power of our products, including Truffle, MetaMask, Linea, and Infura, we have created a robust and user-friendly voting platform that ensures the privacy and integrity of each vote.
 
@@ -11,12 +11,12 @@ Leveraging the power of our products, including Truffle, MetaMask, Linea, and In
 ![](https://i.imgur.com/wMTt3MU.png)
 
 
-To use FormXChange you need to connect your Ethereum wallet and sign in with ethereum. 
+To use FormXChange you need to connect and sign in with MetaMask Wallet. 
 
 **If you are an Admin:**
 
 - You can create new forms with multiple questions
-- After the user submits their votes/answers you will get an average vote for each section
+- After the user submits their votes/answers you can view the average vote for each section
 
 **If you are a User:**
 
@@ -24,7 +24,7 @@ To use FormXChange you need to connect your Ethereum wallet and sign in with eth
 
 #### What are the main features?
 
-- Sign in with Ethereum
+- Sign in with MetaMask
 - Ability to create forms/proposals for users to vote anonymously
 - Getting the average of the votes on each sections/questions
 
