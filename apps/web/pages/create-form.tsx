@@ -5,6 +5,7 @@ import { H1 } from "../components/Text";
 import { ethers } from "ethers";
 import { abi } from "packages/form-XChange/build/contracts/FeedbackFormFactory.json";
 import { useNetwork } from "../hooks/useNetwork";
+import { useRouter } from "next/router";
 
 const classMap = {
   inputClasses:
@@ -12,11 +13,15 @@ const classMap = {
   labelClasses: "text-primary-black font-medium text-lg",
 };
 
+const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
+  "0xd902fb0d62565090af9E5E051708Fa26A9Db9577";
+
 export default function CreateForm() {
   const [questionsInput, setQuestionsInput] = useState<string[]>([""]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const { state } = useNetwork();
+  const router = useRouter();
 
   if (!state.isConnected) {
     return (
@@ -30,7 +35,7 @@ export default function CreateForm() {
   const signer = provider.getSigner();
 
   const contract = new ethers.Contract(
-    "0x77F559635d4e5D46e7EF39DE4A71a5bd75CeBa8c",
+    FEEDBACK_FACTORY_CONTRACT_ADDRESS,
     abi,
     signer
   );
@@ -64,11 +69,12 @@ export default function CreateForm() {
       setQuestionsInput([""]);
       setTitle("");
       setDescription("");
+      router.push("/");
     }
   };
 
   return (
-    <Layout className="bg-gradient-to-br from-[#ebf1ff] via-white to-[#fffff2] min-h-screen">
+    <Layout>
       <H1 className="mt-20 text-center">Create new feedback form</H1>
       <main className="mt-12">
         <form
