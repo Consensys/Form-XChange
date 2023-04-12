@@ -16,10 +16,9 @@ const Layout: React.FC<Props> = ({
   className,
 }) => {
   const rootClassName = twMerge(
-    "min-h-full px-4 md:px-32 text-primary-black max-w-screen-2xl mx-auto",
+    "px-4 md:px-32 text-primary-black max-w-screen-2xl mx-auto bg-gradient-to-br from-[#ebf1ff] via-white to-[#fffff2] min-h-screen",
     className ? className : ""
   );
-
   return (
     <div className={rootClassName}>
       <Head>
