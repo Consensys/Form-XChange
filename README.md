@@ -96,4 +96,15 @@ This will:
 - Deploy the contracts to the development blockchain
 - Start the web server
 
+Or,
+
+If you wish to run Linea directly:
+
+```sh
+npm run linea
+```
+
+In this case, you need to [bridge funds](https://docs.linea.build/use-linea/bridge-funds
+) to linea. 
+
 ---
