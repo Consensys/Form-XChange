@@ -7,7 +7,7 @@
     "test": "truffle test",
     "network": "truffle develop",
     "migrate:local": "truffle migrate --network development",
-    "migrate:linea": "truffle migrate --network zkevm",
+    "migrate:linea": "truffle migrate --network linea",
     "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
     "dev": "npm run compile && npm run generate-types && npm run migrate:local",
     "linea": "npm run compile && npm run generate-types && npm run migrate:linea"

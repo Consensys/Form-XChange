@@ -33,6 +33,10 @@ contract FeedbackForm {
         _;
     }
 
+    function getHasProvidedFeedback(address _address) public view returns (bool) {
+        return feedbackProviders[_address];
+    }
+
     function setQuestions(string[] memory _questions) public onlyOwner {
         numberOfQuestions = _questions.length;
         for (uint i; i < numberOfQuestions; i++) {
