@@ -8,7 +8,7 @@ Leveraging the power of our products, including Truffle, MetaMask, Linea, and In
 ## How It works
 
 
-![Form](https://i.imgur.com/IhxE6dl.png)
+![Form](https://i.imgur.com/al1odgd.png)
 
 
 To use FormXChange you need to connect and sign in with MetaMask Wallet. 
@@ -16,18 +16,20 @@ To use FormXChange you need to connect and sign in with MetaMask Wallet.
 **If you are a Form Author/Creator:**
 
 - You can create new forms with multiple questions
-- After the user submits their votes/answers you can view the average vote for each section
+- After the user submits their responses/feedbacks you can view the average for each section
 
 **If you are a Participant/Contributor:**
 
-- You can go to forms/proposals and vote anonymously
+- You can submit responses to forms/proposals anonymously
+- Participants can also view the results after submitting responses
 
 #### What are the main features?
 
 - Sign in with MetaMask
-- Ability to create forms/proposals for users to vote anonymously
-- Getting the average of the votes on each sections/questions
-
+- Ability to create forms/proposals for users to submit responses anonymously
+- Each questions have 5 options to provide response/feedback
+- Getting the average on each sections/questions
+  
 
 
 
@@ -41,7 +43,6 @@ To use FormXChange you need to connect and sign in with MetaMask Wallet.
 | -------------- | ------------------------------------ | ------------------ |
 | Nodejs         | https://nodejs.org/en/download/      | Latest Version     |
 | Truffle        | https://www.trufflesuite.com/truffle | Installed Globally |
-| Metamask Flask | https://metamask.io/flask/           |                    |
 | Infura               |       https://infura.io/                               |                    |
 | Zokrates           |     https://zokrates.github.io/gettingstarted.html                                 | Installed Globally              |
 
