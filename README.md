@@ -44,7 +44,7 @@ To use FormXChange you need to connect and sign in with MetaMask Wallet.
 | Nodejs         | https://nodejs.org/en/download/      | Latest Version     |
 | Truffle        | https://www.trufflesuite.com/truffle | Installed Globally |
 | Infura               |       https://infura.io/                               |                    |
-| Zokrates           |     https://zokrates.github.io/gettingstarted.html                                 | Installed Globally              |
+
 
 
 ### **Libraries used**
