@@ -21,7 +21,7 @@ const SwitchNetworkStep: FC = ({}) => {
   return (
     <Fragment>
       <H3>Switch Network</H3>
-      <Text className="mt-4">Let's switch to Linea network!</Text>
+      <Text className="mt-4">Let&apos;s switch to Linea network!</Text>
       <Button className="mt-5" onClick={switchToLineaNetwork}>
         <Text className="mr-2 text-white font-semiboldwhitespace-nowrap">
           Switch

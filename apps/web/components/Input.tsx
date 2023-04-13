@@ -7,10 +7,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   inputClassName?: string;
 }
 
-export const Input: React.FC<PropsWithChildren<Props>> = forwardRef<
-  HTMLInputElement,
-  Props
->((props, ref) => {
+export const Input: React.FC<PropsWithChildren<Props>> = ((props, ref) => {
   const { label, className, inputClassName, ...inputProps } = props;
 
   return (

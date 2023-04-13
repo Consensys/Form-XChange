@@ -1,6 +1,5 @@
 import { EthereumRpcError, EthereumProviderError } from "eth-rpc-errors";
 import MetaMaskSDK from "@metamask/sdk";
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 export const initMetaMask = () => {
@@ -13,7 +12,7 @@ export const initMetaMask = () => {
   new MetaMaskSDK();
 };
 
-export const metaMask = () => {
+export const MetaMask = () => {
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(false);
 
   useEffect(() => {
