@@ -14,7 +14,7 @@ const classMap = {
 };
 
 const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
-  "0xd902fb0d62565090af9E5E051708Fa26A9Db9577";
+  "0xa2e2fDb4db80fEF8B4B9E72705F604b62a6c5F4B";
 
 export default function CreateForm() {
   const [questionsInput, setQuestionsInput] = useState<string[]>([""]);

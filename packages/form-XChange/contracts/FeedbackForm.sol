@@ -55,7 +55,6 @@ contract FeedbackForm {
     function getAllQuestions()
         public
         view
-        onlyOwner
         returns (Question[] memory)
     {
         Question[] memory allQuestions = new Question[](numberOfQuestions);
