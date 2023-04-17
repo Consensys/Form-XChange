@@ -1,6 +1,6 @@
 import { PropsWithChildren, useContext, useReducer } from "react";
 
-import { metaMask } from "../../lib/metaMask";
+import { MetaMask as metaMask } from "../../lib/MetaMask";
 import reducer, { initialState } from "./reducer";
 import { isAccountList, lineaNetwork } from "../../utils/networks";
 import ConnectionContext from "./context";

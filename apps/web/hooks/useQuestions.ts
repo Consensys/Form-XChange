@@ -5,11 +5,11 @@ import { FeedbackFormInstance } from "packages/form-XChange/types/truffle-contra
 
 export type Question = {
   value: string;
-  userFeedback: number | null;
+  userFeedback: number[] | number | null;
 };
 
 export const useQuestions = (formContractAddress: string) => {
-  const { abi }  = contract;
+  const { abi } = contract;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
 
@@ -35,10 +35,14 @@ export const useQuestions = (formContractAddress: string) => {
       setIsLoading(true);
       const questions = await FeedbackForm.getAllQuestions();
       setQuestions(
-        questions.map((question) => ({
-          value: question.value,
-          userFeedback: null,
-        }))
+        questions.map((question) => {
+          const { feedback } = question;
+          const feedbacks = feedback.map((f) => Number(f));
+          return {
+            value: question.value,
+            userFeedback: feedbacks,
+          };
+        })
       );
     } catch (error) {
       console.error(error);

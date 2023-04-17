@@ -8,7 +8,7 @@ import { FeedbackFormFactoryInstance } from "packages/form-XChange/types/truffle
 
 // hardcoded for testing
 const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
-  "0x77F559635d4e5D46e7EF39DE4A71a5bd75CeBa8c";
+  "0xa2e2fDb4db80fEF8B4B9E72705F604b62a6c5F4B";
 
 export default function Web() {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
