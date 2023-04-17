@@ -3,8 +3,7 @@ const { expectRevert } = require("@openzeppelin/test-helpers");
 const FeedbackFormFactory = artifacts.require("FeedbackFormFactory");
 const FeedbackForm = artifacts.require("FeedbackForm");
 
-contract("FeedbackFormFactory", (accounts) => {
-  console.log(accounts);
+contract("FeedbackFormFactory", () => {
   let feedbackFormFactory;
 
   beforeEach(async () => {
@@ -36,9 +35,24 @@ contract("FeedbackFormFactory", (accounts) => {
   });
 
   it("should submit the feedbacks to the form questions correctly", async () => {
-    await feedbackFormFactory.submitFeedback(0, [1, 4]);
-    //TODO add assert code
-    console.log(await feedbackFormFactory.getAllQuestions(0));
+    const FORM_ID = 0;
+    const Q1_ANSWER = 1;
+    const Q2_ANSWER = 4;
+
+    await feedbackFormFactory.submitFeedback(FORM_ID, [Q1_ANSWER, Q2_ANSWER]);
+
+    /**
+   * await feedbackFormFactory.getAllQuestions(0) = [
+      [ 'question 1', [ '1' ], value: 'question 1', feedback: [ '1' ] ],
+      [ 'question 2', [ '4' ], value: 'question 2', feedback: [ '4' ] ]
+      ]
+   */
+    const question1 = (await feedbackFormFactory.getAllQuestions(0))[0];
+    const question2 = (await feedbackFormFactory.getAllQuestions(0))[1];
+
+    assert.equal(question1[1][0], Q1_ANSWER);
+
+    assert.equal(question2[1][0], Q2_ANSWER);
   });
 
   it("should revert if same user tries to submit feedback again", async () => {
