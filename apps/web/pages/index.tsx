@@ -8,7 +8,7 @@ import { FeedbackFormFactoryInstance } from "packages/form-XChange/types/truffle
 
 // hardcoded for testing
 const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
-  "0xa2e2fDb4db80fEF8B4B9E72705F604b62a6c5F4B";
+  "0x3c867290F8d787ce595d8180c4F698Cc8E35e334";
 
 export default function Web() {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -42,7 +42,7 @@ export default function Web() {
         {isLoading && <Text>Loading</Text>}
         {error && <Text>Error</Text>}
         {feedbackFormsContracts?.map((address, index) => (
-          <FeedbackFormCard id={index} address={address} />
+          <FeedbackFormCard id={index} address={address} key={address}/>
         ))}
       </section>
     </Layout>

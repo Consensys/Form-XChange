@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { useNetwork } from "../hooks/useNetwork";
 import { truncateEthAddress } from "../utils/networks";
 import Button from "./Button";
-import ConnectionModal from "./ConnectionModal";
 import { H1, Text } from "./Text";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { getFormattedBalance } from "../utils/networks";
 import FundModal from "./FundModal";
 import { useRouter } from "next/router";
+import { ConnectionButton } from "./ConnectionButton";
 
 const Nav = () => {
-  const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
   const [isFundModalOpen, setIsFundModalOpen] = useState(false);
   const {
     state: { isConnected, wrongNetwork, wallet, balance },
@@ -23,9 +21,6 @@ const Nav = () => {
 
   const formattedBalance = getFormattedBalance(balance || "0x0");
 
-  const openConnectionModal = () => setIsConnectionModalOpen(true);
-  const closeConnectionModal = () => setIsConnectionModalOpen(false);
-
   const openFundModal = () => setIsFundModalOpen(true);
   const closeFundModal = () => setIsFundModalOpen(false);
 
@@ -33,8 +28,6 @@ const Nav = () => {
     initPage();
     // @TODO remove listners on unmount;
   }, []);
-
-  const handleDisconnect = () => {};
 
   return (
     <nav className="flex justify-between py-4">
@@ -71,23 +64,8 @@ const Nav = () => {
             New feedback form
           </Button>
         )}
-
-        {(!isConnected || wrongNetwork) && (
-          <Button
-            className={twMerge(
-              "py-2 max-w-[200px]",
-              wrongNetwork && isConnected && "bg-red-500"
-            )}
-            onClick={openConnectionModal}
-          >
-            {wrongNetwork ? "Switch to linea" : "Start"}
-          </Button>
-        )}
+        <ConnectionButton />
       </div>
-      <ConnectionModal
-        isOpen={isConnectionModalOpen}
-        handleCloseModal={closeConnectionModal}
-      />
       <FundModal isOpen={isFundModalOpen} handleCloseModal={closeFundModal} />
     </nav>
   );
