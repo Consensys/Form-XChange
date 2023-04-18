@@ -31,8 +31,8 @@ const Nav = () => {
 
   return (
     <nav className="flex justify-between py-4">
-      <Link href="/">
-        <H1>Home</H1>
+      <Link href="/" className="w-full">
+        <H1>Form xChange</H1>
       </Link>
 
       <div className="flex items-center justify-end w-full gap-4">
