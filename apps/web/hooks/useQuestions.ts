@@ -5,7 +5,7 @@ import { FeedbackFormInstance } from "packages/form-XChange/types/truffle-contra
 
 export type Question = {
   value: string;
-  userFeedback: number[] | number | null;
+  userFeedback: number | null;
 };
 
 export const useQuestions = (formContractAddress: string) => {
@@ -35,14 +35,10 @@ export const useQuestions = (formContractAddress: string) => {
       setIsLoading(true);
       const questions = await FeedbackForm.getAllQuestions();
       setQuestions(
-        questions.map((question) => {
-          const { feedback } = question;
-          const feedbacks = feedback.map((f) => Number(f));
-          return {
-            value: question.value,
-            userFeedback: feedbacks,
-          };
-        })
+        questions.map((question: any) => ({
+          value: question,
+          userFeedback: null,
+        }))
       );
     } catch (error) {
       console.error(error);
