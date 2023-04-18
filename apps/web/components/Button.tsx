@@ -16,6 +16,7 @@ type Props = {
   onClick?: () => void;
   href?: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 };
 
 const Button: React.FC<PropsWithChildren<Props>> = ({
@@ -24,6 +25,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   variant = "primary_blue",
   onClick,
   href,
+  disabled = false,
   ...props
 }) => {
   const rootClassName = twMerge(classMap[variant], className ? className : "");
@@ -37,7 +39,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   }
 
   return (
-    <button onClick={onClick} className={rootClassName} {...props}>
+    <button onClick={onClick} disabled={disabled} className={rootClassName} {...props}>
       {children}
     </button>
   );
