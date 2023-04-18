@@ -82,7 +82,7 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
     <div className="flex flex-col items-center justify-between w-full max-w-2xl gap-2 p-6 mx-auto border shadow-md bg-white md:gap-0 md:flex-row border-primary-blue rounded-xl">
       <header>
         <H3>{title}</H3>
-        <Text className="font-thin">by: {truncateEthAddress(address)}</Text>
+        <Text className="font-thin">Address: {truncateEthAddress(address)}</Text>
       </header>
       <Text className="font-thin">{description}</Text>
       {hasSubmitedFeedback ? (
