@@ -1,4 +1,4 @@
-import { FC, Fragment,useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Question from "./Question";
 import { useQuestions } from "apps/web/hooks/useQuestions";
@@ -41,7 +41,7 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
     setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
 
-  const handleAddFeedback= (answer: number) => {
+  const handleAddFeedback = (answer: number) => {
     addFeedback(currentQuestionIndex, answer);
     moveToNextQuestion();
   };
@@ -80,9 +80,9 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="flex flex-col items-center w-full max-w-md p-4 pt-1 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <Dialog.Panel className="flex flex-col items-center w-full max-w-md p-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 {isLoading ? (
-                   // TODO loader component
+                  // TODO loader component
                   <div>Loading</div>
                 ) : (
                   <>
@@ -123,9 +123,10 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
                       />
                     </div>
 
-                    {isAllFeedbackGiven && (
+                    <div className="flex w-full">
                       <Button
-                        className="self-end w-fit"
+                        className={`max-w-none w-full ${!isAllFeedbackGiven && "bg-opacity-50 hover:bg-opacity-50 cursor-not-allowed"}`}
+                        disabled={!isAllFeedbackGiven}
                         onClick={async () => {
                           await submitFeedback();
                           handleCloseModal();
@@ -135,7 +136,7 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
                       >
                         Submit
                       </Button>
-                    )}
+                    </div>
                   </>
                 )}
               </Dialog.Panel>

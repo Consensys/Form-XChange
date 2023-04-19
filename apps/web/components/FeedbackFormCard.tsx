@@ -22,7 +22,8 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
   const [description, setDescription] = useState("Loading...");
   const [hasSubmitedFeedback, setHasSubmitedFeedback] = useState(false);
   const {
-    state: { wallet },
+    state: { wallet, isConnected },
+    connect,
   } = useNetwork();
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -58,31 +59,16 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
     setHasSubmitedFeedback(hasSubmited);
   };
 
-  // const {
-  //   data: description,
-  //   isLoading: descriptionLoading,
-  //   error: descriptionError,
-  // } = useSwr<string, Error>("feedbackDescription", () =>
-  //   feedbackForm.description()
-  // );
-
-  // const {
-  //   data: title,
-  //   isLoading: titleLoading,
-  //   error: titleError,
-  // } = useSwr<string, Error>("feedbackTitle", () => feedbackForm.title());
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  // const isLoading = titleLoading || descriptionLoading;
-  // const isError = titleError || descriptionError;
 
   return (
     <div className="flex flex-col items-center justify-between w-full max-w-2xl gap-2 p-6 mx-auto border shadow-md bg-white md:gap-0 md:flex-row border-primary-blue rounded-xl">
       <header>
         <H3>{title}</H3>
-        <Text className="font-thin">by: {truncateEthAddress(address)}</Text>
+        <Text className="font-thin">
+          Address: {truncateEthAddress(address)}
+        </Text>
       </header>
       <Text className="font-thin">{description}</Text>
       {hasSubmitedFeedback ? (
@@ -93,7 +79,10 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
           View Results
         </Button>
       ) : (
-        <Button className="py-2 text-center max-w-[200px]" onClick={openModal}>
+        <Button
+          className="py-2 text-center max-w-[200px]"
+          onClick={isConnected ? openModal : connect}
+        >
           Submit Feedback
         </Button>
       )}

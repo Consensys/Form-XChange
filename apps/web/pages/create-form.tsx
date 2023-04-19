@@ -6,6 +6,8 @@ import { ethers } from "ethers";
 import { abi } from "packages/form-XChange/build/contracts/FeedbackFormFactory.json";
 import { useNetwork } from "../hooks/useNetwork";
 import { useRouter } from "next/router";
+import AddIcon from "../components/AddIcon";
+import TrashIcon from "../components/TrashIcon";
 
 const classMap = {
   inputClasses:
@@ -24,11 +26,8 @@ export default function CreateForm() {
   const router = useRouter();
 
   if (!state.isConnected) {
-    return (
-      <Layout>
-        <H1 className="mt-20 text-center">Connect your wallet</H1>
-      </Layout>
-    );
+    router.push("/");
+    return;
   }
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -142,9 +141,9 @@ export default function CreateForm() {
                   <Button
                     onClick={() => handleDelete(i)}
                     type="button"
-                    className="bg-red-500 h-fit w-fit max-w-[200px] mt-6"
+                    className="bg-red-500 h-fit w-fit max-w-[200px] mt-6 py-4 px-4"
                   >
-                    Delete
+                    <TrashIcon />
                   </Button>
                 )}
               </div>
@@ -152,9 +151,9 @@ export default function CreateForm() {
             <Button
               onClick={() => setQuestionsInput([...questionsInput, ""])}
               type="button"
-              className="py-2 max-w-[200px] mt-6"
+              className="py-2 max-w-[210px] justify-center mt-6 flex items-center gap-2"
             >
-              Add new question
+              <AddIcon /> Add new question
             </Button>
           </div>
           <Button type="submit" className="py-2 max-w-[200px]">
