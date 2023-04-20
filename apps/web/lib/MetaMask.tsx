@@ -1,6 +1,7 @@
 import { EthereumRpcError, EthereumProviderError } from "eth-rpc-errors";
 import MetaMaskSDK from "@metamask/sdk";
 import { useEffect, useState } from "react";
+import { getErrorMessage } from "./error";
 
 export const initMetaMask = () => {
   // in case we are rendering on the server,
@@ -29,14 +30,10 @@ export const MetaMask = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      //@ts-ignore
       return accounts?.[0];
-    } catch (error: unknown) {
-      if (error instanceof EthereumRpcError) {
-        if (error.code === 4001) {
-          console.log("user rejected");
-        }
-      }
+    } catch (error) {
+      const message = getErrorMessage(error)
+      console.log(message)
     }
   };
 
@@ -49,15 +46,12 @@ export const MetaMask = () => {
 
       return balance;
     } catch (error) {
-      // @ts-ignore
-      // @TODO properly handle typecast
-      if (error.code === 4001) {
-        console.log("user rejected");
-      }
+      const message = getErrorMessage(error)
+      console.log(message)
     }
   };
 
-  const getChainId = () => window.ethereum.networkVersion;
+  const getChainId = () => window.ethereum?.networkVersion ?? null
 
   const addEthereumChain = async ({
     chainId,

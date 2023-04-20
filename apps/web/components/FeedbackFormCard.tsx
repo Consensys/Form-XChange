@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { FeedbackFormInstance } from "packages/form-XChange/types/truffle-contracts";
 import contract from "packages/form-XChange/build/contracts/FeedbackForm.json";
 import { truncateEthAddress } from "../utils/networks";
 import FeedbacksModal from "./FeedbacksModal";
 import Button from "./Button";
 import { H3, Text } from "./Text";
 import { useNetwork } from "../hooks/useNetwork";
+import { getFormContractClientInstance } from "../lib/contract.ts/contract.client";
 
 type Props = {
   id: number;
@@ -15,7 +14,6 @@ type Props = {
 };
 
 export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
-  const { abi } = contract;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [title, setTitle] = useState("Loading...");
@@ -26,14 +24,6 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
     connect,
   } = useNetwork();
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-  const feedbackForm = new ethers.Contract(
-    address,
-    abi,
-    provider
-  ) as unknown as FeedbackFormInstance;
-
   useEffect(() => {
     getTitle();
     getDescription();
@@ -43,20 +33,28 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
   }, [wallet]);
 
   const getTitle = async () => {
-    const title = await feedbackForm.title();
-    setTitle(title);
+    if (isConnected) {
+      const contract = getFormContractClientInstance();
+      const title = await contract?.title()!;
+      setTitle(title);
+    }
   };
 
   const getDescription = async () => {
-    const description = await feedbackForm.description();
-    setDescription(description);
+    if (isConnected) {
+      const contract = getFormContractClientInstance();
+      const description = await contract?.description()!;
+      setDescription(description);
+    }
   };
 
   const getHasSubmitedFeedback = async () => {
-    const hasSubmited = await feedbackForm.getHasProvidedFeedback(
-      wallet as string
-    );
-    setHasSubmitedFeedback(hasSubmited);
+    if (isConnected) {
+      const constract = getFormContractClientInstance();
+      //@ts-ignore
+      const hasSubmited = await contract?.getHasProvidedFeedback(wallet!)!;
+      setHasSubmitedFeedback(hasSubmited);
+    }
   };
 
   const openModal = () => setIsModalOpen(true);
