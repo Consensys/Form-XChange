@@ -85,6 +85,7 @@ export const MetaMask = () => {
   };
 
   const switchEthereumChain = async (chainId: number) => {
+    console.log(`0x${chainId.toString(16)}`)
     return window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: `0x${chainId.toString(16)}` }],

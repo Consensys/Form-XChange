@@ -61,7 +61,7 @@ const Nav = () => {
                 : router.push("/create-form");
             }}
           >
-            New feedback form
+          {formattedBalance === 0 ? 'Fund your wallet' : 'New feedback form'}
           </Button>
         )}
         <ConnectionButton />

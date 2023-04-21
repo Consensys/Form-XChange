@@ -61,7 +61,7 @@ const FundModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
                     >
                       faucet
                     </Link>
-                    to obtain Goerli ETH. Then,
+                    to obtain Goerli ETH. Then,{' '}
                     <Link
                       className="text-blue-500 "
                       target="_blank"
@@ -69,11 +69,11 @@ const FundModal: FC<Props> = ({ isOpen, handleCloseModal }) => {
                     >
                       bridge
                     </Link>{" "}
-                    funds from Goerli to Linea
+                    funds from Goerli to Linea.
                   </Text>
 
                   <Text className="mt-6">
-                    Need more help ?
+                    Need more help?
                     <Link
                       className="ml-2 text-blue-500"
                       target="_blank"
