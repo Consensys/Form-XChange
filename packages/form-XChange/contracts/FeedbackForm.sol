@@ -29,7 +29,7 @@ contract FeedbackForm {
     }
 
     modifier hasProvidedFeedback() {
-        require(!feedbackProviders[msg.sender], "User has already prvoded feedback.");
+        require(!feedbackProviders[tx.origin], "User has already prvoded feedback.");
         _;
     }
 
