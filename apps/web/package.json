@@ -18,7 +18,8 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "swr": "^2.1.1"
+    "swr": "^2.1.1",
+    "form-xchange": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

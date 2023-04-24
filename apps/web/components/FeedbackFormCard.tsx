@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { FeedbackFormInstance } from "packages/form-XChange/types/truffle-contracts";
 import contract from "packages/form-XChange/build/contracts/FeedbackForm.json";
 import { truncateEthAddress } from "../utils/networks";
 import FeedbacksModal from "./FeedbacksModal";
 import Button from "./Button";
 import { H3, Text } from "./Text";
 import { useNetwork } from "../hooks/useNetwork";
+import { getFeedbackFormInstanceContract } from "../lib/contract.ts/feedBackFormInstanceContract";
+import useSwr from "swr";
+import { ethers } from "ethers";
 
 type Props = {
   id: number;
@@ -15,48 +16,41 @@ type Props = {
 };
 
 export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
-  const { abi } = contract;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [title, setTitle] = useState("Loading...");
-  const [description, setDescription] = useState("Loading...");
   const [hasSubmitedFeedback, setHasSubmitedFeedback] = useState(false);
   const {
-    state: { wallet, isConnected },
+    state: { wallet, isConnected, wrongNetwork },
     connect,
   } = useNetwork();
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const fetcher = () =>
+    fetch("/api/form-details", {
+      body: JSON.stringify({ address }),
+      method: "POST",
+    }).then((res) => res.json());
 
-  const feedbackForm = new ethers.Contract(
-    address,
-    abi,
-    provider
-  ) as unknown as FeedbackFormInstance;
+  const { data } = useSwr<{ title: string; description: string }>(
+    "/test",
+    fetcher
+  );
+
+  const canFetchFormInfo = isConnected && !wrongNetwork;
 
   useEffect(() => {
-    getTitle();
-    getDescription();
     if (wallet) {
       getHasSubmitedFeedback();
     }
   }, [wallet]);
 
-  const getTitle = async () => {
-    const title = await feedbackForm.title();
-    setTitle(title);
-  };
-
-  const getDescription = async () => {
-    const description = await feedbackForm.description();
-    setDescription(description);
-  };
-
   const getHasSubmitedFeedback = async () => {
-    const hasSubmited = await feedbackForm.getHasProvidedFeedback(
-      wallet as string
-    );
-    setHasSubmitedFeedback(hasSubmited);
+    if (canFetchFormInfo) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = getFeedbackFormInstanceContract({ address, provider });
+      const hasSubmited = await contract.getHasProvidedFeedback(wallet!);
+      console.log({ hasSubmited });
+      setHasSubmitedFeedback(hasSubmited);
+    }
   };
 
   const openModal = () => setIsModalOpen(true);
@@ -65,12 +59,14 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
   return (
     <div className="flex flex-col items-center justify-between w-full max-w-2xl gap-2 p-6 mx-auto border shadow-md bg-white md:gap-0 md:flex-row border-primary-blue rounded-xl">
       <header>
-        <H3>{title}</H3>
+        <H3>{data ? data.title : "loading..."}</H3>
         <Text className="font-thin">
           Address: {truncateEthAddress(address)}
         </Text>
       </header>
-      <Text className="font-thin">{description}</Text>
+      <Text className="font-thin">
+        {data ? data.description : "loading..."}
+      </Text>
       {hasSubmitedFeedback ? (
         <Button
           className="py-2 text-center max-w-[200px]"

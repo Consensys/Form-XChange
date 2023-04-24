@@ -1,4 +1,4 @@
-import type { NextPage } from "next/types";
+import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next/types";
 import Layout from "../components/Layout";
 import { Question } from "../hooks/useQuestions";
 import { BarChart } from "../components/BarChart";
@@ -66,7 +66,7 @@ const Results: NextPage<Props> = ({ address }) => {
 
 export default Results;
 
-export async function getServerSideProps(context: any) {
+export const getServerSideProps = (context: GetServerSidePropsContext) => {
   const { query } = context;
 
   if (!query.address) {

@@ -6,7 +6,7 @@ export const lineaNetwork = {
   networkId: 59140,
   chainId: 59140,
   nativeCurrency: {
-    name: "ETH",
+    name: "Linea Ether",
     symbol: "ETH",
     decimals: 18,
   },

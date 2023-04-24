@@ -2,8 +2,9 @@ import { MetaMaskProvider } from "../components/MetamaskProvider";
 import { NetworkProvider } from "../hooks/useNetwork";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "../styles/globals.css";
+import type { AppProps } from "next/app";
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   const hasMounted = useHasMounted();
 
   if (!hasMounted) {
@@ -17,5 +18,5 @@ function MyApp({ Component, pageProps }) {
       </NetworkProvider>
     </MetaMaskProvider>
   );
-}
+};
 export default MyApp;
