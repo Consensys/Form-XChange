@@ -72,7 +72,16 @@ cd Form-XChange
 npm install
 ```
 
-3. In a first terminal, start the development blockchain
+3. Grab your Infura API key and Add them to a new file called `.env`. 
+There is an example file in the same directory called `.env.example`. Your `.env` file should look like this:
+
+
+```
+INFURA_PROJECT_ID=123
+```
+
+
+5. In a first terminal, start the development blockchain
 
 ```sh
 npm run network
