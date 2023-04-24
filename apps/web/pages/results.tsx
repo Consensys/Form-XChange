@@ -27,6 +27,7 @@ const Results: NextPage<Props> = ({ address }) => {
 
   useEffect(() => {
     if (questions) {
+      console.log("here ", questions);
       handleQuestions(questions);
     }
   }, [questions]);
