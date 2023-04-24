@@ -1,4 +1,4 @@
-import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next/types";
+import type { GetServerSidePropsContext, NextPage } from "next/types";
 import Layout from "../components/Layout";
 import { Question } from "../hooks/useQuestions";
 import { BarChart } from "../components/BarChart";
@@ -20,8 +20,8 @@ const Results: NextPage<Props> = ({ address }) => {
   const { data: title } = useSwr<string, Error>("feedbackTitle", () =>
     feedbackForm.title()
   );
-  
-  const { data: questions } = useSwr("feedbackQuestions", () =>
+
+  const { data: questions } = useSwr(address, () =>
     feedbackForm.getAllQuestions()
   );
 
@@ -80,4 +80,4 @@ export const getServerSideProps = (context: GetServerSidePropsContext) => {
   return {
     props: { address: query.address },
   };
-}
+};

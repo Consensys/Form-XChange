@@ -9,9 +9,7 @@ export default function Web() {
   const fetcher = () => fetch("/api/forms").then((res) => res.json());
   const {
     state: { isConnected },
-
   } = useNetwork();
-
 
   const { data, isLoading, error } = useSwr<string[]>("/forms", fetcher, {
     refreshInterval: 100,
@@ -27,9 +25,10 @@ export default function Web() {
       </section>
       <section className="flex flex-col w-full gap-6 mt-8">
         {isLoading && <FeedbackFormCardSkeleton />}
-        {isConnected && data?.map((address, index) => (
-          <FeedbackFormCard id={index} address={address} key={address} />
-        ))}
+        {isConnected &&
+          data?.map((address, index) => (
+            <FeedbackFormCard id={index} address={address} key={address} />
+          ))}
       </section>
     </Layout>
   );
