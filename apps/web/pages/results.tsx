@@ -1,8 +1,4 @@
-import type {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  NextPage,
-} from "next/types";
+import type { GetServerSidePropsContext, NextPage } from "next/types";
 import Layout from "../components/Layout";
 import { Question } from "../hooks/useQuestions";
 import { BarChart } from "../components/BarChart";
@@ -31,6 +27,7 @@ const Results: NextPage<Props> = ({ address }) => {
 
   useEffect(() => {
     if (questions) {
+      console.log("here ", questions);
       handleQuestions(questions);
     }
   }, [questions]);
