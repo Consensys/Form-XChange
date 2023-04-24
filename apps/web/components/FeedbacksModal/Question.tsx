@@ -48,7 +48,7 @@ const Question: FC<Props> = ({
   ];
   return (
     <div className="flex flex-col items-center flex-1">
-      <H3 className="mt-4 text-center">{value}</H3>
+      <H3 className="mt-4 text-center">{value[0]}</H3>
       <div className="flex w-full mt-4">
         {feedbacks.map(({ id, title, image }) => (
           <FeedbackItem

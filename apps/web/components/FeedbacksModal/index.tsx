@@ -14,6 +14,7 @@ interface Props {
 
 const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
 
   const {
     isLoading,
@@ -42,6 +43,7 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
   };
 
   const handleAddFeedback = (answer: number) => {
+    setAnswers((prev) => [...prev, answer]);
     addFeedback(currentQuestionIndex, answer);
     moveToNextQuestion();
   };
@@ -128,7 +130,7 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
                         className={`max-w-none w-full ${!isAllFeedbackGiven && "bg-opacity-50 hover:bg-opacity-50 cursor-not-allowed"}`}
                         disabled={!isAllFeedbackGiven}
                         onClick={async () => {
-                          await submitFeedback();
+                          await submitFeedback(answers);
                           handleCloseModal();
                           clearLocalFeedbacks();
                           setCurrentQuestionIndex(0);

@@ -11,7 +11,6 @@ export const getFeedbackFormInstanceContract = ({
   address,
   provider,
 }: Args) => {
-  console.log(address, 'inside helper func')
   return new ethers.Contract(
     address,
     abi,

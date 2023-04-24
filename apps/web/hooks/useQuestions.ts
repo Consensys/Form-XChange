@@ -58,13 +58,13 @@ export const useQuestions = (formContractAddress: string) => {
     );
   };
 
-  const submitFeedback = async () => {
+  const submitFeedback = async (answers: number[]) => {
     setIsLoading(true);
 
     if (!isAllFeedbackGiven) return;
 
     try {
-      await FeedbackForm.submitFeedback(feedbacks as number[]);
+      await FeedbackForm.submitFeedback(answers);
     } catch (error) {
       console.error(error);
     } finally {

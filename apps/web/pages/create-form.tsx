@@ -8,15 +8,13 @@ import { useNetwork } from "../hooks/useNetwork";
 import { useRouter } from "next/router";
 import AddIcon from "../components/AddIcon";
 import TrashIcon from "../components/TrashIcon";
+import { FEEDBACK_FACTORY_CONTRACT_ADDRESS } from "../lib/contract.ts/config";
 
 const classMap = {
   inputClasses:
     "w-full mt-6 border rounded-md py-2 px-4 placeholder-gray-400 placeholder-opacity-50",
   labelClasses: "text-primary-black font-medium text-lg",
 };
-
-const FEEDBACK_FACTORY_CONTRACT_ADDRESS =
-  "0xa2e2fDb4db80fEF8B4B9E72705F604b62a6c5F4B";
 
 export default function CreateForm() {
   const [questionsInput, setQuestionsInput] = useState<string[]>([""]);
