@@ -31,7 +31,7 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
     }).then((res) => res.json());
 
   const { data } = useSwr<{ title: string; description: string }>(
-    "FeedbackFormCard",
+    address,
     fetcher
   );
 
