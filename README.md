@@ -72,7 +72,7 @@ cd Form-XChange
 npm install
 ```
 
-3. Grab your Infura API key and Add them to a new file called `.env`. 
+3. Grab your Infura API key and Add them to a new file called `.env` in the [apps/web ](https://github.com/ConsenSys/Form-XChange/tree/main/apps/web) directory.
 There is an example file in the same directory called `.env.example`. Your `.env` file should look like this:
 
 
