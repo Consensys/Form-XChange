@@ -7,7 +7,6 @@ import { FeedbackFormInstance } from "packages/form-XChange/types/truffle-contra
  * Relies on window.ethereum being present (metamask installed and client side). use condionally
  */
 export const getFormContractClientInstance = () => {
-
   if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
     console.log(window.ethereum);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
