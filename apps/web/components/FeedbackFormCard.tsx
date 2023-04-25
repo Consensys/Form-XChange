@@ -31,7 +31,9 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
     title: string;
     description: string;
     hasProvidedFeedback: boolean;
-  }>(`formCard-${address}`, fetcher);
+  }>(`formCard-${address}`, fetcher, {
+    refreshInterval: 1000,
+  });
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
