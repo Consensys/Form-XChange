@@ -11,24 +11,36 @@ export default function Web() {
     state: { isConnected },
   } = useNetwork();
 
-  const { data, isLoading, error } = useSwr<string[]>("/forms", fetcher, {
+  const { data, isLoading } = useSwr<string[]>("/forms", fetcher, {
     refreshInterval: 100,
   });
 
   return (
     <Layout>
       <section className="flex flex-col items-center mt-24">
-        <H1 className="mb-4 text-center">Welcome to form-XChange!</H1>
-        <Text className="max-w-md text-center">
-          To get started connect your wallet
-        </Text>
+        <H1 className="mb-4 text-center md:text-5xl">
+          Welcome to form-XChange!
+        </H1>
+        {!isConnected ? (
+          <Text className="max-w-md text-center text-xl">
+            To get started connect your wallet
+          </Text>
+        ) : (
+          <Text className="max-w-md text-center text-xl">
+            These are all the forms available on the network
+          </Text>
+        )}
       </section>
-      <section className="flex flex-col w-full gap-6 mt-8">
+      <section className="flex flex-col w-full gap-6 mt-8 pb-10">
         {isLoading && <FeedbackFormCardSkeleton />}
         {isConnected &&
-          data?.map((address, index) => (
-            <FeedbackFormCard id={index} address={address} key={address} />
-          ))}
+          data
+            ?.slice()
+            .reverse()
+            .slice(0, 10)
+            .map((address, index) => (
+              <FeedbackFormCard id={index} address={address} key={address} />
+            ))}
       </section>
     </Layout>
   );
