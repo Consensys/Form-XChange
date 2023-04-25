@@ -20,6 +20,7 @@ export default function CreateForm() {
   const [questionsInput, setQuestionsInput] = useState<string[]>([""]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const { state } = useNetwork();
   const router = useRouter();
 
@@ -59,7 +60,14 @@ export default function CreateForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await contract.createFeedbackForm(questionsInput, title, description);
+      const tx = await contract.createFeedbackForm(
+        questionsInput,
+        title,
+        description
+      );
+      setLoading(true);
+      await tx.wait();
+      setLoading(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -69,6 +77,16 @@ export default function CreateForm() {
       router.push("/");
     }
   };
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h1 className="text-3xl font-bold text-center">Creating form...</h1>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
