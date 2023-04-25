@@ -87,28 +87,32 @@ INFURA_PROJECT_ID=123
 npm run network
 ```
 
-. In a second terminal, run the dev command. this will do the following:
+. In a second terminal, run the dev command from the `packages/form-XChange` directory. 
 
 ```sh
 npm run dev
 ```
 
-This will:
+This will do the following:
 
 - Compile the contracts and compile typescript defeinitions
-- Deploy the contracts to the development blockchain
-- Start the web server
+- Deploy the contracts to the local development blockchain
+
+Now head over to this path `apps/web/lib/contracts.ts/config.ts` and change the factory contract with the one you just deployed locally.
+
 
 **Or,**
 
 If you wish to run Linea directly:
 
-1. You need to change directory to `package` after that go to to [form-XChange](https://github.com/ConsenSys/Form-XChange/tree/main/packages/form-XChange) directory.
+1. You need to change directory to `packages` after that go to to [form-XChange](https://github.com/ConsenSys/Form-XChange/tree/main/packages/form-XChange) directory.
 Run the following command:
 
 ```sh
 npm run linea
 ```
+
+This will deploy the contract on linea. You need to head over to this `apps/web/lib/contracts.ts/config.ts` file and change the factory contract for the deployed contract on linea.
 
 In this case, you need to [bridge funds](https://docs.linea.build/use-linea/bridge-funds
 ) to linea. 
