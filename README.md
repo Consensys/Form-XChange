@@ -33,9 +33,9 @@ To use FormXChange you need to connect and sign in with MetaMask Wallet.
 
 
 
-# Technical Details
+## Technical Details
 
-## Pre-requisites
+### Pre-requisites
 
 
 
@@ -43,7 +43,7 @@ To use FormXChange you need to connect and sign in with MetaMask Wallet.
 | -------------- | ------------------------------------ | ------------------ |
 | Nodejs         | https://nodejs.org/en/download/      | Latest Version     |
 | Truffle        | https://www.trufflesuite.com/truffle | Installed Globally |
-| Infura               |       https://infura.io/                               |                    |
+| Infura         |       https://infura.io/             |               |
 
 
 
@@ -57,54 +57,72 @@ Here's an overview of the included frameworks and tools.
 - **Turbo** - Turborepo is a high-performance build system for JavaScript and TypeScript codebases.
 
 
-## Run It Locally
+### Run It Locally
 
 1. Clone the repository
 
 ```
-git clone git@github.com:ConsenSys/zk-vote.git
+git clone git@github.com:ConsenSys/Form-XChange.git
 ```
 
 2. Install dependencies
 
 ```
-cd zk-vote
+cd Form-XChange
 npm install
 ```
 
-3. Grab your Infura API key and your Flask mnemonic phrase from MetaMask. Add them to a new file called `.env` in the [votes package](packages/vote/). There is an example file in the same directory called `.env.example`. Your `.env` file should look like this:
+3. Grab your Infura API key and Add them to a new file called `.env` in the [apps/web ](https://github.com/ConsenSys/Form-XChange/tree/main/apps/web) directory.
+There is an example file in the same directory called `.env.example`. Your `.env` file should look like this:
+
 
 ```
 INFURA_PROJECT_ID=123
-MNEMONIC="strategy venue ..."
 ```
 
-4. In a first terminal, start the development blockchain
+
+5. In a first terminal, start the development blockchain
 
 ```sh
 npm run network
 ```
 
-5. In a second terminal, run the dev command. this will do the following:
+. In a second terminal, run the dev command from the `packages/form-XChange` directory. 
 
 ```sh
 npm run dev
 ```
 
-This will:
-  - Compile the contracts and compile typescript defeinitions
-- Deploy the contracts to the development blockchain
-- Start the web server
+This will do the following:
 
-Or,
+- Compile the contracts and compile typescript defeinitions
+- Deploy the contracts to the local development blockchain
+
+Now head over to this path `apps/web/lib/contracts.ts/config.ts` and change the factory contract with the one you just deployed locally.
+
+
+**Or,**
 
 If you wish to run Linea directly:
+
+1. You need to change directory to `packages` after that go to to [form-XChange](https://github.com/ConsenSys/Form-XChange/tree/main/packages/form-XChange) directory.
+Run the following command:
 
 ```sh
 npm run linea
 ```
 
+This will deploy the contract on linea. You need to head over to this `apps/web/lib/contracts.ts/config.ts` file and change the factory contract for the deployed contract on linea.
+
 In this case, you need to [bridge funds](https://docs.linea.build/use-linea/bridge-funds
 ) to linea. 
+
+2. Running some tests
+
+If you wish to run some test:
+
+```sh
+npm run test
+```
 
 ---
