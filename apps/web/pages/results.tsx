@@ -21,13 +21,18 @@ const Results: NextPage<Props> = ({ address }) => {
     feedbackForm.title()
   );
 
+  const { data: description } = useSwr<string, Error>(
+    "feedbackDescription",
+    () => feedbackForm.description()
+  );
+
   const { data: questions } = useSwr(address, () =>
     feedbackForm.getAllQuestions()
   );
 
   useEffect(() => {
     if (questions) {
-      handleQuestions(questions);
+      handleQuestions(questions as unknown as Question[]);
     }
   }, [questions]);
 
@@ -37,11 +42,12 @@ const Results: NextPage<Props> = ({ address }) => {
     provider
   ) as unknown as FeedbackFormInstance;
 
-  const handleQuestions = (data: any) => {
+  const handleQuestions = (data: Question[]) => {
     setUserQuestions(() => {
-      return data.map((question: any) => {
+      return data.map((question) => {
         return {
           value: question.value,
+          // @ts-ignore TODO: fix this
           userFeedback: Number(question.feedback),
         };
       });
@@ -52,6 +58,7 @@ const Results: NextPage<Props> = ({ address }) => {
     <Layout>
       <div className="py-10">
         <h1 className="text-3xl font-bold text-center">{title}</h1>
+        <p className="text-center mt-4">{description}</p>
         {userQuestions.map((question, index) => (
           <BarChart
             key={index}
