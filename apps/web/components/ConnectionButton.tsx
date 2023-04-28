@@ -1,7 +1,8 @@
+import { forwardRef } from "react";
 import Button from "./Button";
 import { useNetwork } from "../hooks/useNetwork";
 
-export const ConnectionButton: React.FC = () => {
+export const ConnectionButton: React.FC = forwardRef(() => {
   const {
     state: { isConnected, wrongNetwork },
     connect,
@@ -41,4 +42,4 @@ export const ConnectionButton: React.FC = () => {
   }
 
   return null;
-};
+});

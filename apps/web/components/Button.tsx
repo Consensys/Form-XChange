@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef} from "react";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 import type { ButtonVariant } from "../types";
@@ -19,7 +19,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const Button: React.FC<PropsWithChildren<Props>> = ({
+const Button: React.FC<PropsWithChildren<Props>> = forwardRef(({
   children,
   className,
   variant = "primary_blue",
@@ -27,7 +27,7 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   href,
   disabled = false,
   ...props
-}) => {
+}, _ ) => {
   const rootClassName = twMerge(classMap[variant], className ? className : "");
 
   if (href) {
@@ -39,10 +39,10 @@ const Button: React.FC<PropsWithChildren<Props>> = ({
   }
 
   return (
-    <button onClick={onClick} disabled={disabled} className={rootClassName} {...props}>
+    <button onClick={onClick}  disabled={disabled} className={rootClassName} {...props}>
       {children}
     </button>
   );
-};
+});
 
 export default Button;
