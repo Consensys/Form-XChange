@@ -8,5 +8,5 @@ export const MetaMaskProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   }, []);
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 };

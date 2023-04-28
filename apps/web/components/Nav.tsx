@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect, Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { Bars4Icon } from "@heroicons/react/24/solid";
 import { useNetwork } from "../hooks/useNetwork";
 import { truncateEthAddress } from "../utils/networks";
-import Button from "./Button";
 import { H1, Text } from "./Text";
-import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { getFormattedBalance } from "../utils/networks";
-import FundModal from "./FundModal";
 import { useRouter } from "next/router";
 import { ConnectionButton } from "./ConnectionButton";
+import { NewFormButton } from "./NewFormButton";
+import { Fund } from "./Fund";
 
 const Nav = () => {
-  const [isFundModalOpen, setIsFundModalOpen] = useState(false);
   const {
-    state: { isConnected, wrongNetwork, wallet, balance },
+    state: { isConnected, wallet, balance },
     initPage,
   } = useNetwork();
 
@@ -21,16 +21,12 @@ const Nav = () => {
 
   const formattedBalance = getFormattedBalance(balance || "0x0");
 
-  const openFundModal = () => setIsFundModalOpen(true);
-  const closeFundModal = () => setIsFundModalOpen(false);
-
   useEffect(() => {
     initPage();
-    // @TODO remove listners on unmount;
   }, []);
 
   return (
-    <nav className="flex justify-between py-4">
+    <nav className="flex items-center justify-between py-4">
       <Link href="/" className="w-full">
         <H1>Form xChange</H1>
       </Link>
@@ -48,25 +44,64 @@ const Nav = () => {
           </div>
         )}
 
-        {isConnected && (
-          <Button
-            variant="borderless"
-            className={twMerge(
-              "max-w-[200px] py-2",
-              formattedBalance === 0 && "border-red-500"
-            )}
-            onClick={() => {
-              formattedBalance === 0
-                ? openFundModal()
-                : router.push("/create-form");
-            }}
-          >
-          {formattedBalance === 0 ? 'Fund your wallet' : 'New feedback form'}
-          </Button>
-        )}
-        <ConnectionButton />
+        <div className="hidden lg:flex">
+          {isConnected &&
+            (formattedBalance === 0 ? (
+              <Fund currentBalance={formattedBalance} className="mr-2" />
+            ) : (
+              <NewFormButton
+                onClick={() => router.push("/create-form")}
+                className="mr-2"
+              />
+            ))}
+          <ConnectionButton />
+        </div>
+        <div className="text-right lg:hidden">
+          <Menu as="div" className="relative inline-block text-left">
+            <div>
+              <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white rounded-md hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+                <Bars4Icon
+                  className="w-5 h-12 ml-2 -mr-1 text-black hover:text-opacity-60"
+                  aria-hidden="true"
+                />
+              </Menu.Button>
+            </div>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="px-4 py-4 rounded-lg">
+                  {isConnected && (
+                    <Menu.Item>
+                      {formattedBalance === 0 ? (
+                        <Fund
+                          currentBalance={formattedBalance}
+                          className="mb-2"
+                        />
+                      ) : (
+                        <NewFormButton
+                          onClick={() => router.push("/create-form")}
+                          className="mb-2"
+                        />
+                      )}
+                    </Menu.Item>
+                  )}
+
+                  <Menu.Item>
+                    <ConnectionButton />
+                  </Menu.Item>
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
       </div>
-      <FundModal isOpen={isFundModalOpen} handleCloseModal={closeFundModal} />
     </nav>
   );
 };

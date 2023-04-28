@@ -16,18 +16,20 @@ const Layout: React.FC<Props> = ({
   className,
 }) => {
   const rootClassName = twMerge(
-    "px-4 md:px-32 text-primary-black max-w-screen-2xl mx-auto bg-gradient-to-br from-[#ebf1ff] via-white to-[#fffff2] min-h-screen",
+    "px-4 md:px-24 text-primary-black  bg-gradient-to-br from-[#ebf1ff] via-white to-[#fffff2] min-h-screen",
     className ? className : ""
   );
   return (
     <div className={rootClassName}>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={`${description}`} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Nav />
-      <main className="">{children}</main>
+      <div className="max-w-screen-xl mx-auto">
+        <Head>
+          <title>{title}</title>
+          <meta name="description" content={`${description}`} />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Nav />
+        <main className="">{children}</main>
+      </div>
     </div>
   );
 };

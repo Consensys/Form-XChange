@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.13",
+    "@heroicons/react": "^2.0.17",
     "@metamask/sdk": "^0.1.0",
     "chart.js": "^4.2.1",
     "eth-rpc-errors": "^4.0.3",
