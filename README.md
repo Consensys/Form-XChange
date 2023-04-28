@@ -126,3 +126,33 @@ npm run test
 ```
 
 ---
+
+### Known Issues ⏳
+
+<details>
+    <summary> <b>Issue: Metamask Wallet not recognized on Brave Browser</b>  </summary>
+ 
+    
+ <br/>
+    
+   It has brought to our attention that that the Metamask wallet is not recognized when using the Brave browser. This may result in an inability to access the wallet and create new forms or submitting feedbacks.
+    
+**Impact**
+    
+This issue may impact users who prefer to use the Brave browser for its privacy and security features. Without access to the Metamask wallet, users may need to switch to an alternative browser to use the dapp.
+
+**Workaround**
+    
+If you encounter this issue, we recommend trying the following workaround:
+
+- Open the Metamask wallet directly from the Brave browser extension icon rather than accessing it through the website or try following these [steps](https://support.metamask.io/hc/en-us/articles/360038596792-Using-MetaMask-wallet-in-Brave-browser#:~:text=If%20you%20encounter%20issues%20while,wallets%20are%20installed%20and%20active.&text=Restart%20Brave).
+- If this workaround does not work, try switching to a different browser such as Chrome or Firefox.
+    
+**Solution**
+    
+Our development team is actively investigating the root cause of this issue and working on a solution. We appreciate your patience and understanding while we work to resolve this issue. 
+    
+</details>
+
+
+
