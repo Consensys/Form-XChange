@@ -167,12 +167,15 @@ export default function CreateForm() {
             <Button
               onClick={() => setQuestionsInput([...questionsInput, ""])}
               type="button"
-              className="py-2 max-w-[210px] justify-center mt-6 flex items-center gap-2"
+              className="py-2 sm:max-w-[210px] max-w-none justify-center mt-6 flex items-center gap-2"
             >
               <AddIcon /> Add new question
             </Button>
           </div>
-          <Button type="submit" className="py-2 max-w-[200px]">
+          <Button
+            type="submit"
+            className="py-2 w-full sm:max-w-[200px]  max-w-none "
+          >
             Create Form
           </Button>
         </form>
