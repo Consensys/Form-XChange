@@ -23,7 +23,7 @@ export const ConnectionButton: React.FC = () => {
 
   if (!isConnected) {
     return (
-      <Button className="py-2 max-w-[200px]" onClick={connect}>
+      <Button className="w-full py-2" onClick={connect}>
         Connect
       </Button>
     );
@@ -31,7 +31,7 @@ export const ConnectionButton: React.FC = () => {
     if (wrongNetwork) {
       return (
         <Button
-          className="py-2 max-w-[200px] bg-red-500"
+          className="w-full h-12 py-2 bg-red-500 whitespace-nowrap"
           onClick={switchToLineaNetwork}
         >
           Switch to Linea
