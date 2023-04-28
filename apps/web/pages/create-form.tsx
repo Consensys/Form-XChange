@@ -94,7 +94,7 @@ export default function CreateForm() {
       <main className="mt-12">
         <form
           onSubmit={(e) => handleSubmit(e)}
-          className="flex flex-col gap-10 place-items-end px-12 py-7 shadow-lg rounded-xl bg-[#FEFEFE] max-w-4xl mx-auto mb-10"
+          className="flex flex-col gap-5 md:gap-10 place-items-end px-12 py-7 shadow-lg rounded-xl bg-[#FEFEFE] max-w-4xl mx-auto mb-10"
         >
           <div className="flex w-full gap-10">
             <div className="flex flex-col w-full">
@@ -167,12 +167,12 @@ export default function CreateForm() {
             <Button
               onClick={() => setQuestionsInput([...questionsInput, ""])}
               type="button"
-              className="py-2 max-w-[210px] justify-center mt-6 flex items-center gap-2"
+              className="py-2 w-full mx-auto md:mx-0 md:max-w-[210px] justify-center mt-6 flex items-center gap-2"
             >
               <AddIcon /> Add new question
             </Button>
           </div>
-          <Button type="submit" className="py-2 max-w-[200px]">
+          <Button type="submit" className="w-full mx-auto md:mx-0 py-2 md:max-w-[200px]">
             Create Form
           </Button>
         </form>

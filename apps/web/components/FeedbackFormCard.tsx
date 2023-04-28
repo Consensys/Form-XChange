@@ -38,6 +38,13 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const truncateDescription = (description: string | undefined) => {
+    if (description && description.length > 30) {
+      return description.slice(0, 30).trim() + "...";
+    }
+    return description;
+  };
+
   if (isLoading) return <FeedbackFormCardSkeleton />;
 
   return (
@@ -48,7 +55,9 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
           Address: {truncateEthAddress(address)}
         </Text>
       </header>
-      <Text className="font-thin">{data?.description}</Text>
+      <Text className="font-thin">
+        {truncateDescription(data?.description)}
+      </Text>
       {data?.hasProvidedFeedback ? (
         <Button
           className="py-2 text-center max-w-[200px]"

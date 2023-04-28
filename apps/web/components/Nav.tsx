@@ -26,7 +26,7 @@ const Nav = () => {
   }, []);
 
   return (
-    <nav className="flex items-center justify-between py-4">
+    <nav className="flex justify-between py-4 max-w-screen-2xl mx-auto">
       <Link href="/" className="w-full">
         <H1>Form xChange</H1>
       </Link>
