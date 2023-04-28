@@ -52,13 +52,12 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
       <header>
         <H3>{data?.title}</H3>
         <Text className="font-thin">
-          {truncateDescription(data?.description)}
-        </Text>
-        <Text className="font-thin">
           Address: {truncateEthAddress(address)}
         </Text>
       </header>
-      <Text className="font-thin">{data?.description}</Text>
+      <Text className="font-thin">
+        {truncateDescription(data?.description)}
+      </Text>
       {data?.hasProvidedFeedback ? (
         <Button
           className="py-2 text-center max-w-[200px]"

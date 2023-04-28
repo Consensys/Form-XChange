@@ -48,7 +48,7 @@ const Results: NextPage<Props> = ({ address }) => {
         return {
           value: question.value,
           // @ts-ignore TODO: fix this
-          userFeedback: Number(question.feedback),
+          userFeedback: question.feedback.map((feedback) => Number(feedback)),
         };
       });
     });
