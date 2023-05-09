@@ -6,13 +6,12 @@ import { Text } from "../Text";
 import Button from "../Button";
 
 interface Props {
-  id: number;
   address: string;
   isOpen: boolean;
   handleCloseModal: () => void;
 }
 
-const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
+const AnswersModal: FC<Props> = ({ isOpen, handleCloseModal, address }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
 
@@ -127,7 +126,10 @@ const AnswersModal: FC<Props> = ({ id, isOpen, handleCloseModal, address }) => {
 
                     <div className="flex w-full">
                       <Button
-                        className={`max-w-none w-full ${!isAllFeedbackGiven && "bg-opacity-50 hover:bg-opacity-50 cursor-not-allowed"}`}
+                        className={`max-w-none w-full ${
+                          !isAllFeedbackGiven &&
+                          "bg-opacity-50 hover:bg-opacity-50 cursor-not-allowed"
+                        }`}
                         disabled={!isAllFeedbackGiven}
                         onClick={async () => {
                           await submitFeedback(answers);

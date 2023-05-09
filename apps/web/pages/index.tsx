@@ -11,9 +11,13 @@ export default function Web() {
     state: { isConnected },
   } = useNetwork();
 
+  console.log(isConnected);
+
   const { data, isLoading } = useSwr<string[]>("/forms", fetcher, {
     refreshInterval: 100,
   });
+
+  console.log(data);
 
   return (
     <Layout>
@@ -33,14 +37,13 @@ export default function Web() {
       </section>
       <section className="flex flex-col w-full gap-6 mt-8 pb-10">
         {isLoading && <FeedbackFormCardSkeleton />}
-        {isConnected &&
-          data
-            ?.slice()
-            .reverse()
-            .slice(0, 10)
-            .map((address, index) => (
-              <FeedbackFormCard id={index} address={address} key={address} />
-            ))}
+        {data
+          ?.slice()
+          .reverse()
+          .slice(0, 10)
+          .map((address, index) => (
+            <FeedbackFormCard id={index} address={address} key={address} />
+          ))}
       </section>
     </Layout>
   );

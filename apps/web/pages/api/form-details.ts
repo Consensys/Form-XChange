@@ -11,13 +11,24 @@ const handler: NextApiHandler = async (req, res) => {
     provider,
   });
 
-  const [title, description, hasProvidedFeedback] = await Promise.all([
-    feedbackForm.title(),
-    feedbackForm.description(),
-    feedbackForm.getHasProvidedFeedback(JSON.parse(req.body).userAddress),
-  ]);
+  const userFeedbackRequested = Boolean(JSON.parse(req.body).userAddress);
 
-  res.status(200).json({ title, description, hasProvidedFeedback });
+  if (userFeedbackRequested) {
+    const [title, description, hasProvidedFeedback] = await Promise.all([
+      feedbackForm.title(),
+      feedbackForm.description(),
+      feedbackForm.getHasProvidedFeedback(JSON.parse(req.body).userAddress),
+    ]);
+
+    res.status(200).json({ title, description, hasProvidedFeedback });
+  } else {
+    const [title, description] = await Promise.all([
+      feedbackForm.title(),
+      feedbackForm.description(),
+    ]);
+
+    res.status(200).json({ title, description });
+  }
 };
 
 export default handler;
