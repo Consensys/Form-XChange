@@ -64,7 +64,7 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
       {data?.hasProvidedFeedback  ? (
         <Button
           className="py-2 text-center max-w-[200px]"
-          href={`/results?address=${address}`}
+          href={`/form/results/${address}`}
         >
           View Results
         </Button>
