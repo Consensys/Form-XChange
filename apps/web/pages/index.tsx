@@ -11,13 +11,9 @@ export default function Web() {
     state: { isConnected },
   } = useNetwork();
 
-  console.log(isConnected);
-
   const { data, isLoading } = useSwr<string[]>("/forms", fetcher, {
     refreshInterval: 100,
   });
-
-  console.log(data);
 
   return (
     <Layout>

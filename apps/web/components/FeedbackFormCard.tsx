@@ -61,7 +61,7 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
       <Text className="font-thin">
         {truncateDescription(data?.description)}
       </Text>
-      {/* {data?.hasProvidedFeedback ? (
+      {data?.hasProvidedFeedback  ? (
         <Button
           className="py-2 text-center max-w-[200px]"
           href={`/results?address=${address}`}
@@ -70,12 +70,13 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
         </Button>
       ) : (
         <Button
-          className="py-2 text-center max-w-[200px]"
-          onClick={isConnected ? openModal : connect}
+          className="py-2 text-center max-w-[200px] disabled:bg-opacity-80 disabled:cursor-not-allowed"
+          disabled={!isConnected}
+          onClick={openModal}
         >
           Submit Feedback
         </Button>
-      )} */}
+      )}
       <FeedbacksModal
         isOpen={isModalOpen}
         handleCloseModal={closeModal}
