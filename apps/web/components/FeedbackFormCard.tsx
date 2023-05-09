@@ -6,6 +6,7 @@ import { H3, Text } from "./Text";
 import { useNetwork } from "../hooks/useNetwork";
 import useSwr from "swr";
 import { FeedbackFormCardSkeleton } from "./FeedbackFormCardSkeleton";
+import Link from "next/link";
 
 type Props = {
   id: number;
@@ -50,7 +51,9 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
   return (
     <div className="flex flex-col items-center justify-between w-full max-w-2xl gap-2 p-6 mx-auto border shadow-md bg-white md:gap-0 md:flex-row border-primary-blue rounded-xl">
       <header>
-        <H3>{data?.title}</H3>
+        <Link href={`form/view/${address}`}>
+          <H3>{data?.title}</H3>
+        </Link>
         <Text className="font-thin">
           Address: {truncateEthAddress(address)}
         </Text>
@@ -58,23 +61,23 @@ export const FeedbackFormCard: React.FC<Props> = ({ id, address }) => {
       <Text className="font-thin">
         {truncateDescription(data?.description)}
       </Text>
-      {data?.hasProvidedFeedback ? (
+      {data?.hasProvidedFeedback  ? (
         <Button
           className="py-2 text-center max-w-[200px]"
-          href={`/results?address=${address}`}
+          href={`/form/results/${address}`}
         >
           View Results
         </Button>
       ) : (
         <Button
-          className="py-2 text-center max-w-[200px]"
-          onClick={isConnected ? openModal : connect}
+          className="py-2 text-center max-w-[200px] disabled:bg-opacity-80 disabled:cursor-not-allowed"
+          disabled={!isConnected}
+          onClick={openModal}
         >
           Submit Feedback
         </Button>
       )}
       <FeedbacksModal
-        id={id}
         isOpen={isModalOpen}
         handleCloseModal={closeModal}
         address={address}
