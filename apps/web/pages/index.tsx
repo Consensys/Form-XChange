@@ -19,13 +19,13 @@ export default function Web() {
   return (
     <Layout>
       <section className="flex flex-col items-center">
-        <H1 className="mb-4 text-center md:text-5xl">
+        <H1 className="mb-0.5 mt-0 text-center md:text-5xl">
           Welcome to Form xChange
         </H1>
-        <h3 className="w-259 h-20 font-bold text-2xl md:text-3xl leading-7 text-center flex items-center text-gray-500">
+        <h3 className="w-259 h-20 font-bold text-2xl -mt-3 md:text-3xl leading-7 text-center flex items-center text-gray-500">
           Web3 forms & surveys
         </h3>
-        <p className="w-474 h-23 font-normal text-base leading-6 text-center flex items-center text-gray-500">
+        <p className="w-474 h-23 font-normal text-base -mt-3 leading-6 text-center flex items-center text-gray-500">
           <Balancer>
             A simple survey blockchain app to better understand users and
             communities

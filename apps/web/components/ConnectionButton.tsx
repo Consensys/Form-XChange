@@ -24,7 +24,7 @@ export const ConnectionButton: React.FC = () => {
   if (!isConnected) {
     return (
       <Button className="w-full py-2" onClick={connect}>
-        Connect
+        Connect Wallet
       </Button>
     );
   } else {
