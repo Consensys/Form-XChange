@@ -18,21 +18,21 @@ export default function Web() {
 
   return (
     <Layout>
-      <section className="flex flex-col items-center mt-24">
+      <section className="flex flex-col items-center">
         <H1 className="mb-4 text-center md:text-5xl">
-          Welcome to form-XChange
+          Welcome to Form xChange
         </H1>
-        <h3 className="w-259 h-28 font-bold text-2xl md:text-3xl leading-7 text-center flex items-center text-gray-500">
+        <h3 className="w-259 h-20 font-bold text-2xl md:text-3xl leading-7 text-center flex items-center text-gray-500">
           Web3 forms & surveys
         </h3>
-
         <p className="w-474 h-23 font-normal text-base leading-6 text-center flex items-center text-gray-500">
           <Balancer>
-            A simple survey blockchain app to better understand your end-users
-            and communities
+            A simple survey blockchain app to better understand users and
+            communities
           </Balancer>
         </p>
       </section>
+
       <section className="flex flex-col w-full gap-6 mt-8 pb-10">
         {isLoading && <FeedbackFormCardSkeleton />}
         {data
