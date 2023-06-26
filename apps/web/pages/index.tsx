@@ -18,7 +18,7 @@ export default function Web() {
 
   return (
     <Layout>
-      <section className="flex flex-col items-center">
+      <section className="flex flex-col items-center pt-20 pb-10">
         <H1 className="mb-0.5 mt-0 text-center md:text-5xl">
           Welcome to Form xChange
         </H1>
