@@ -3,7 +3,7 @@ import { FEEDBACK_FACTORY_CONTRACT_ADDRESS } from "./config";
 import { abi } from "packages/form-XChange/build/contracts/FeedbackFormFactory.json";
 import { FeedbackFormFactoryInstance } from "packages/form-XChange/types/truffle-contracts";
 
-const url = `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${process.env.INFURA_KEY}`;
+const url = `https://linea-goerli.infura.io/v3/${process.env.INFURA_KEY}`;
 
 const provider = new ethers.providers.JsonRpcProvider(url);
 

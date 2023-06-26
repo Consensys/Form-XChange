@@ -115,7 +115,7 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
 
-  const url = `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${process.env.INFURA_KEY}`;
+  const url = `https://linea-goerli.infura.io/v3/${process.env.INFURA_KEY}`;
   const provider = new ethers.providers.JsonRpcProvider(url);
 
   if (!params?.address || typeof params.address !== "string") {
