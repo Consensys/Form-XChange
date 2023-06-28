@@ -4,6 +4,7 @@ import { FeedbackFormCard } from "../components/FeedbackFormCard";
 import { H1, Text } from "../components/Text";
 import { FeedbackFormCardSkeleton } from "../components/FeedbackFormCardSkeleton";
 import { useNetwork } from "../hooks/useNetwork";
+import Balancer from "react-wrap-balancer";
 
 export default function Web() {
   const fetcher = () => fetch("/api/forms").then((res) => res.json());
@@ -17,20 +18,21 @@ export default function Web() {
 
   return (
     <Layout>
-      <section className="flex flex-col items-center mt-24">
-        <H1 className="mb-4 text-center md:text-5xl">
-          Welcome to form-XChange!
+      <section className="flex flex-col items-center pt-20 pb-10">
+        <H1 className="mb-0.5 mt-0 text-center md:text-5xl">
+          Welcome to Form xChange
         </H1>
-        {!isConnected ? (
-          <Text className="max-w-md text-center text-xl">
-            To get started connect your wallet
-          </Text>
-        ) : (
-          <Text className="max-w-md text-center text-xl">
-            These are all the forms available on the network
-          </Text>
-        )}
+        <h3 className="w-259 h-20 font-bold text-2xl -mt-3 md:text-3xl leading-7 text-center flex items-center text-gray-500">
+          Web3 forms & surveys
+        </h3>
+        <p className="w-474 h-23 font-normal text-base -mt-3 leading-6 text-center flex items-center text-gray-500">
+          <Balancer>
+            A simple survey blockchain app to better understand users and
+            communities
+          </Balancer>
+        </p>
       </section>
+
       <section className="flex flex-col w-full gap-6 mt-8 pb-10">
         {isLoading && <FeedbackFormCardSkeleton />}
         {data

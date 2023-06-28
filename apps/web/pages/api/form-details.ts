@@ -2,7 +2,7 @@ import { getFeedbackFormInstanceContract } from "apps/web/lib/contract.ts/feedBa
 import { ethers } from "ethers";
 import type { NextApiHandler } from "next";
 
-const url = `https://consensys-zkevm-goerli-prealpha.infura.io/v3/${process.env.INFURA_KEY}`;
+const url = `https://linea-goerli.infura.io/v3/${process.env.INFURA_KEY}`;
 const provider = new ethers.providers.JsonRpcProvider(url);
 
 const handler: NextApiHandler = async (req, res) => {
