@@ -106,6 +106,9 @@ Now head over to this path `apps/web/lib/contracts.ts/config.ts` and change the 
 If you wish to run Linea directly:
 
 1. You need to change directory to `packages` after that go to to [form-XChange](https://github.com/ConsenSys/Form-XChange/tree/main/packages/form-XChange) directory.
+
+2. In the `packages/form-XChange` directory setup your `.env`. You can take reference of `.env.example`.
+
 Run the following command:
 
 ```sh

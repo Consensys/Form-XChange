@@ -1,5 +1,6 @@
 require("dotenv").config();
 const mnemonic = process.env["MNEMONIC"];
+const infuraKey = process.env["INFURA_API_KEY"];
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
@@ -13,7 +14,7 @@ module.exports = {
     },
     linea: {
       provider: () =>
-        new HDWalletProvider(mnemonic, `https://rpc.goerli.linea.build`),
+        new HDWalletProvider(mnemonic, `https://linea-goerli.infura.io/v3/${infuraKey}`),
       network_id: 59140,
       chain_id: 59140,
     },
