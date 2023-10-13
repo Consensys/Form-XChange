@@ -17,23 +17,32 @@ contract FeedbackForm {
     mapping(uint => Question) public questions;
     mapping(address => bool) public feedbackProviders;
 
-    constructor(string memory _title, string memory _description) {
-        owner = tx.origin;
+    constructor(
+        address _owner,
+        string memory _title,
+        string memory _description
+    ) {
+        owner = _owner;
         title = _title;
         description = _description;
     }
 
     modifier onlyOwner() {
-        require(tx.origin == owner, "Only owner can call this function.");
+        require(msg.sender == owner, "Only owner can call this function.");
         _;
     }
 
     modifier hasProvidedFeedback() {
-        require(!feedbackProviders[tx.origin], "User has already prvoded feedback.");
+        require(
+            !feedbackProviders[msg.sender],
+            "User has already prvoded feedback."
+        );
         _;
     }
 
-    function getHasProvidedFeedback(address _address) public view returns (bool) {
+    function getHasProvidedFeedback(
+        address _address
+    ) public view returns (bool) {
         return feedbackProviders[_address];
     }
 
@@ -52,11 +61,7 @@ contract FeedbackForm {
         return (questions[_id].value, questions[_id].feedback);
     }
 
-    function getAllQuestions()
-        public
-        view
-        returns (Question[] memory)
-    {
+    function getAllQuestions() public view returns (Question[] memory) {
         Question[] memory allQuestions = new Question[](numberOfQuestions);
         for (uint i; i < numberOfQuestions; i++) {
             allQuestions[i] = questions[i];

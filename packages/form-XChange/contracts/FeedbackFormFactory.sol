@@ -11,7 +11,11 @@ contract FeedbackFormFactory {
         string memory _title,
         string memory _description
     ) public returns (FeedbackForm) {
-        FeedbackForm feedbackForm = new FeedbackForm(_title, _description);
+        FeedbackForm feedbackForm = new FeedbackForm(
+            msg.sender,
+            _title,
+            _description
+        );
         feedbackForm.setQuestions(_questions);
         feedbackForms.push(feedbackForm);
         return feedbackForm;
@@ -23,15 +27,5 @@ contract FeedbackFormFactory {
 
     function getFeedbackFormById(uint _id) public view returns (FeedbackForm) {
         return feedbackForms[_id];
-    }
-
-    function getAllQuestions(
-        uint _id
-    ) public view returns (FeedbackForm.Question[] memory) {
-        return feedbackForms[_id].getAllQuestions();
-    }
-
-    function submitFeedback(uint _id, uint[] memory _feedback) public {
-        feedbackForms[_id].submitFeedback(_feedback);
     }
 }
